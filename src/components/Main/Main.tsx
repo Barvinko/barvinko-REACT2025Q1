@@ -3,6 +3,7 @@ import { Search } from './Search/Search';
 import { CardList } from './CardList/CardList';
 import { getData } from '../../utilits/getData';
 import { ResponseStarWars, Character } from '../../types/types';
+import './Main.css';
 
 export class Main extends Component {
   state = {
@@ -30,10 +31,14 @@ export class Main extends Component {
 
   render(): ReactNode {
     return (
-      <main>
-        <article>
+      <main className="main">
+        <article className="search-list">
           <Search nameRequest={this.nameRequest} />
-          <CardList dataCharacters={this.state.dataCharacters} />
+          {this.state.loading ? (
+            <div className="search-list__spinner"></div>
+          ) : (
+            <CardList dataCharacters={this.state.dataCharacters} />
+          )}
         </article>
       </main>
     );
