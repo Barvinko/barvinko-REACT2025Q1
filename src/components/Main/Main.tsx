@@ -10,6 +10,7 @@ export class Main extends Component {
     URL: 'https://swapi.dev/api/people/?search=',
     dataCharacters: [] as Character[],
     loading: false,
+    throwError: false,
   };
 
   nameRequest = (name: string): void => {
@@ -29,11 +30,26 @@ export class Main extends Component {
       });
   };
 
+  throwError = () => {
+    this.setState({ throwError: true });
+  };
+
   render(): ReactNode {
+    if (this.state.throwError) {
+      throw new Error('Test error');
+    }
     return (
       <main className="main">
         <article className="search-list">
           <Search nameRequest={this.nameRequest} />
+          <section className="search-list__test-error">
+            <button
+              className="search-list__button-error"
+              onClick={this.throwError}
+            >
+              Throw Error
+            </button>
+          </section>
           {this.state.loading ? (
             <div className="search-list__spinner"></div>
           ) : (
