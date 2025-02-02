@@ -6,13 +6,18 @@ interface SearchProps {
   nameRequest: (name: string) => void;
 }
 
-export class Search extends Component<SearchProps> {
+interface SearchState {
+  name: string;
+  errorMessage: string;
+}
+
+export class Search extends Component<SearchProps, SearchState> {
   private _savedName = createLocalValue<string>(
     'Barvinko-classComponents__name'
   );
   private _regexName = /^[a-zA-Z0-9\s-]*$/;
 
-  state = {
+  state: SearchState = {
     name: this._savedName.get(),
     errorMessage: '',
   };

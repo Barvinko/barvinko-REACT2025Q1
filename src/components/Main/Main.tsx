@@ -5,10 +5,18 @@ import { getData } from '../../utilits/getData';
 import { ResponseStarWars, Character } from '../../types/types';
 import './Main.css';
 
+interface MainState {
+  URL: string;
+  dataCharacters: Character[];
+  loading: boolean;
+  errorRequest: boolean;
+  throwError: boolean;
+}
+
 export class Main extends Component {
-  state = {
+  state: MainState = {
     URL: 'https://swapi.dev/api/people/?search=',
-    dataCharacters: [] as Character[],
+    dataCharacters: [],
     loading: false,
     errorRequest: false,
     throwError: false,
