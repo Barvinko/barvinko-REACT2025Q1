@@ -29,3 +29,12 @@
 .search-list__test-error{
   margin-top: 10px;
 }
+
+.search-list__error-message{
+  color: rgb(138, 0, 0);
+  padding: 10px;
+  font-size: 3rem;
+  border-radius: 5px;
+  text-align: center;
+  margin-top: 20px;
+}

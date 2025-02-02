@@ -10,6 +10,7 @@ export class Main extends Component {
     URL: 'https://swapi.dev/api/people/?search=',
     dataCharacters: [] as Character[],
     loading: false,
+    errorRequest: false,
     throwError: false,
   };
 
@@ -22,8 +23,9 @@ export class Main extends Component {
           dataCharacters: dataRequest.results,
         });
       })
-      .catch((error) => {
+      .catch((error: Error) => {
         console.error('Data retrieval error:', error);
+        this.setState({ errorRequest: true });
       })
       .finally(() => {
         this.setState({ loading: false });
@@ -52,6 +54,8 @@ export class Main extends Component {
           </section>
           {this.state.loading ? (
             <div className="search-list__spinner"></div>
+          ) : this.state.errorRequest ? (
+            <h2 className="search-list__error-message">Request Error</h2>
           ) : (
             <CardList dataCharacters={this.state.dataCharacters} />
           )}
