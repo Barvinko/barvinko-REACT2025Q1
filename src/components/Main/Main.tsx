@@ -16,7 +16,6 @@ export class Main extends Component {
 
   nameRequest = (name: string): void => {
     this.setState({ loading: true });
-    console.log('Data loading:', `${this.state.URL}${name}`);
     getData<ResponseStarWars>(`${this.state.URL}${name}`)
       .then((dataRequest) => {
         this.setState({
