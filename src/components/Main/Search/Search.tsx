@@ -1,4 +1,4 @@
-import { Component, ReactNode } from 'react';
+import { useState, useEffect, useCallback, ChangeEvent } from 'react';
 import { createLocalValue } from '../../../utilits/useLocalStorage';
 import './Search.css';
 
@@ -6,58 +6,46 @@ interface SearchProps {
   nameRequest: (name: string) => void;
 }
 
-interface SearchState {
-  name: string;
-  errorMessage: string;
-}
+export const Search = ({ nameRequest }: SearchProps) => {
+  const _savedName = createLocalValue<string>('Barvinko-classComponents__name');
+  const _regexName = /^[a-zA-Z0-9\s-]*$/;
 
-export class Search extends Component<SearchProps, SearchState> {
-  private _savedName = createLocalValue<string>(
-    'Barvinko-classComponents__name'
-  );
-  private _regexName = /^[a-zA-Z0-9\s-]*$/;
+  const [name, setName] = useState<string>(_savedName.get());
+  const [errorMessage, setErrorMessage] = useState('');
 
-  state: SearchState = {
-    name: this._savedName.get(),
-    errorMessage: '',
-  };
+  const handleSearchClick = useCallback(() => {
+    const trimmedName = name.trim();
+    nameRequest(trimmedName);
+    _savedName.set(trimmedName);
+  }, [name, nameRequest, _savedName]);
 
-  private handleSearchClick = () => {
-    const trimmedName = this.state.name.trim();
-    this.props.nameRequest(trimmedName);
-    this._savedName.set(trimmedName);
-  };
-
-  private handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const name = event.target.value;
-    if (this._regexName.test(name)) {
-      this.setState({ name, errorMessage: '' });
+    if (_regexName.test(name)) {
+      setName(name);
+      setErrorMessage('');
     } else {
-      this.setState({
-        errorMessage: 'Only letters, numbers, spaces, and hyphens are allowed.',
-      });
+      setErrorMessage(
+        'Only letters, numbers, spaces, and hyphens are allowed.'
+      );
     }
   };
 
-  componentDidMount(): void {
-    this.handleSearchClick();
-  }
+  useEffect(() => {
+    handleSearchClick();
+  }, [handleSearchClick]);
 
-  render(): ReactNode {
-    return (
-      <section className="search">
-        <input
-          className="search__input"
-          type="search"
-          placeholder="Name..."
-          value={this.state.name}
-          onChange={(event) => this.handleInputChange(event)}
-        />
-        <button onClick={this.handleSearchClick}>Search</button>
-        {this.state.errorMessage && (
-          <p className="search__error-message">{this.state.errorMessage}</p>
-        )}
-      </section>
-    );
-  }
-}
+  return (
+    <section className="search">
+      <input
+        className="search__input"
+        type="search"
+        placeholder="Name..."
+        value={name}
+        onChange={handleInputChange}
+      />
+      <button onClick={handleSearchClick}>Search</button>
+      {errorMessage && <p className="search__error-message">{errorMessage}</p>}
+    </section>
+  );
+};
