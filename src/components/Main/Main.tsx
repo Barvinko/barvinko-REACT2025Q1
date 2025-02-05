@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Search } from './Search/Search';
 import { CardList } from './CardList/CardList';
-import { getData } from '../../utilits/getData';
-import { ResponseStarWars, Character } from '../../types/types';
+import { getData } from '@utilits/getData';
+import { ResponseStarWars, Character } from '@/src/types/types';
 import './Main.css';
 
 export const Main = () => {

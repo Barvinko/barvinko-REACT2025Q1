@@ -21,10 +21,14 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "alwaysStrict": true
+
+    /* Aliases */
+    "baseUrl": "./",
+    "paths": {
+      "@components/*": ["src/components/*"],
+      "@/src/types/*": ["src/types/*"],
+      "@utilits/*": ["src/utilits/*"]
+    }
   },
   "include": ["src"]
 }

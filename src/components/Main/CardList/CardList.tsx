@@ -1,5 +1,5 @@
 import { Card } from './Card/Card';
-import { Character } from '../../../types/types';
+import type { Character } from '@/src/types/types';
 import './CardList.css';
 
 interface CardListProps {
