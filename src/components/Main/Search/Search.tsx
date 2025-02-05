@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, ChangeEvent } from 'react';
-import { createLocalValue } from '../../../utilits/useLocalStorage';
+import { useLocalStorage } from '@utilits/useLocalStorage';
 import './Search.css';
 
 interface SearchProps {
@@ -7,22 +7,24 @@ interface SearchProps {
 }
 
 export const Search = ({ nameRequest }: SearchProps) => {
-  const _savedName = createLocalValue<string>('Barvinko-classComponents__name');
-  const _regexName = /^[a-zA-Z0-9\s-]*$/;
-
-  const [name, setName] = useState<string>(_savedName.get());
+  const [inputName, setInputName] = useState<string>('');
+  const [localName, setLocalName] = useLocalStorage<string>(
+    'Barvinko-classComponents__name',
+    ''
+  );
+  const [regexName] = useState(/^[a-zA-Z0-9\s-]*$/);
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleSearchClick = useCallback(() => {
-    const trimmedName = name.trim();
+    const trimmedName = inputName.trim();
     nameRequest(trimmedName);
-    _savedName.set(trimmedName);
-  }, [name, nameRequest, _savedName]);
+    setLocalName(trimmedName);
+  }, [inputName, nameRequest, setLocalName]);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const name = event.target.value;
-    if (_regexName.test(name)) {
-      setName(name);
+    if (regexName.test(name)) {
+      setInputName(name);
       setErrorMessage('');
     } else {
       setErrorMessage(
@@ -32,8 +34,8 @@ export const Search = ({ nameRequest }: SearchProps) => {
   };
 
   useEffect(() => {
-    handleSearchClick();
-  }, [handleSearchClick]);
+    nameRequest(localName.trim());
+  }, [localName, nameRequest]);
 
   return (
     <section className="search">
@@ -41,7 +43,7 @@ export const Search = ({ nameRequest }: SearchProps) => {
         className="search__input"
         type="search"
         placeholder="Name..."
-        value={name}
+        value={inputName}
         onChange={handleInputChange}
       />
       <button onClick={handleSearchClick}>Search</button>

@@ -1,21 +1,35 @@
-const getLocalValue = <T>(key: string): T => {
+import { useEffect, useState } from 'react';
+
+const getLocalValue = <T>(key: string, initValue: T): T => {
+  if (typeof window === 'undefined') {
+    return initValue;
+  }
   const itemValue = localStorage.getItem(key);
 
-  return itemValue && itemValue !== 'undefined' ? JSON.parse(itemValue) : '';
+  const localValue: T =
+    itemValue && itemValue !== 'undefined'
+      ? JSON.parse(itemValue as string)
+      : '';
+
+  if (localValue) {
+    return localValue;
+  }
+
+  if (initValue instanceof Function) {
+    return initValue();
+  }
+
+  return initValue;
 };
 
-const setLocalValue = <T>(key: string, value: T): void => {
-  localStorage.setItem(key, JSON.stringify(value));
-};
+export const useLocalStorage = <T>(key: string, initValue: T) => {
+  const [value, setValue] = useState<T>(() => {
+    return getLocalValue(key, initValue);
+  });
 
-type LocalValue<T> = {
-  get: () => T;
-  set: (value: T) => void;
-};
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(value));
+  }, [key, value]);
 
-export const createLocalValue = <T>(key: string): LocalValue<T> => {
-  return {
-    get: () => <T>getLocalValue(key),
-    set: (value: T) => <T>setLocalValue(key, value),
-  };
+  return [value, setValue] as const;
 };

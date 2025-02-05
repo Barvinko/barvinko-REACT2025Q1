@@ -6,8 +6,7 @@ import { ResponseStarWars, Character } from '@/src/types/types';
 import './Main.css';
 
 export const Main = () => {
-  const _URL = 'https://swapi.dev/api/people/?search=';
-
+  const [URL] = useState('https://swapi.dev/api/people/?search=');
   const [dataCharacters, setDataCharacters] = useState<Character[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [errorRequest, setErrorRequest] = useState<boolean>(false);
@@ -16,7 +15,7 @@ export const Main = () => {
   const nameRequest = useCallback(
     (name: string): void => {
       setLoading(true);
-      getData<ResponseStarWars>(`${_URL}${name}`)
+      getData<ResponseStarWars>(`${URL}${name}`)
         .then((dataRequest) => {
           setDataCharacters(dataRequest.results);
         })
@@ -28,7 +27,7 @@ export const Main = () => {
           setLoading(false);
         });
     },
-    [_URL]
+    [URL]
   );
 
   useEffect(() => {
