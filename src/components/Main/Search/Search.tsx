@@ -3,10 +3,16 @@ import { useLocalStorage } from '@utilits/useLocalStorage';
 import './Search.css';
 
 interface SearchProps {
-  nameRequest: (name: string) => void;
+  page: number;
+  nameRequest: (name: string, page?: number) => void;
+  handlePageChange: (selected: number) => void;
 }
 
-export const Search = ({ nameRequest }: SearchProps) => {
+export const Search = ({
+  page,
+  nameRequest,
+  handlePageChange,
+}: SearchProps) => {
   const [localName, setLocalName] = useLocalStorage<string>(
     'Barvinko-classComponents__name',
     ''
@@ -17,9 +23,10 @@ export const Search = ({ nameRequest }: SearchProps) => {
 
   const handleSearchClick = useCallback(() => {
     const trimmedName = inputName.trim();
-    nameRequest(trimmedName);
+    nameRequest(trimmedName, 1);
     setLocalName(trimmedName);
-  }, [inputName, nameRequest, setLocalName]);
+    handlePageChange(0);
+  }, [inputName, nameRequest, setLocalName, handlePageChange]);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const name = event.target.value;
@@ -33,10 +40,13 @@ export const Search = ({ nameRequest }: SearchProps) => {
     }
   };
 
-  useEffect(() => {
-    nameRequest(localName);
-  }, [localName, nameRequest]);
+  const fetchData = useCallback(() => {
+    nameRequest(localName, page);
+  }, [localName, page, nameRequest]);
 
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
   return (
     <section className="search">
       <input
