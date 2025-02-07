@@ -7,11 +7,11 @@ interface SearchProps {
 }
 
 export const Search = ({ nameRequest }: SearchProps) => {
-  const [inputName, setInputName] = useState<string>('');
   const [localName, setLocalName] = useLocalStorage<string>(
     'Barvinko-classComponents__name',
     ''
   );
+  const [inputName, setInputName] = useState<string>(localName);
   const [regexName] = useState(/^[a-zA-Z0-9\s-]*$/);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -34,7 +34,7 @@ export const Search = ({ nameRequest }: SearchProps) => {
   };
 
   useEffect(() => {
-    nameRequest(localName.trim());
+    nameRequest(localName);
   }, [localName, nameRequest]);
 
   return (
