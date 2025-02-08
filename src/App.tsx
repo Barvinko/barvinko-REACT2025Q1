@@ -11,6 +11,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Main />} />
+        <Route path="/page/:page" element={<Main />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </ErrorBoundary>

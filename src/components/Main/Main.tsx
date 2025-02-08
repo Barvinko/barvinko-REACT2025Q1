@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 import { Search } from './Search/Search';
 import { CardList } from './CardList/CardList';
@@ -9,19 +9,16 @@ import './Main.css';
 
 export const Main = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const getPageNumber = (): number => {
-    const params = new URLSearchParams(location.search);
-    return parseInt(params.get('page') || '1', 10);
-  };
+  const { page } = useParams<{ page: string }>();
 
   const [URL] = useState('https://swapi.dev/api/people/?search=');
   const [dataCharacters, setDataCharacters] = useState<Character[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [errorRequest, setErrorRequest] = useState<boolean>(false);
   const [throwError, setThrowError] = useState<boolean>(false);
-  const [currentPage, setCurrentPage] = useState<number>(getPageNumber());
+  const [currentPage, setCurrentPage] = useState<number>(
+    parseInt(page || '1', 10)
+  );
   const [pageCount, setPageCount] = useState<number>(0);
 
   const nameRequest = useCallback(
@@ -44,7 +41,7 @@ export const Main = () => {
   );
 
   useEffect(() => {
-    if (currentPage == 1) navigate(`?page=1`);
+    if (currentPage === 1) navigate(`/page/1`);
   }, [navigate, currentPage]);
 
   useEffect(() => {
@@ -56,7 +53,7 @@ export const Main = () => {
   const handlePageChange = ({ selected }: { selected: number }) => {
     const newPage = selected + 1;
     setCurrentPage(newPage);
-    navigate(`?page=${newPage}`);
+    navigate(`/page/${newPage}`);
   };
 
   return (
