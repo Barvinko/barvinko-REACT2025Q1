@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Outlet } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 import { Search } from './Search/Search';
 import { CardList } from './CardList/CardList';
@@ -41,10 +41,6 @@ export const Main = () => {
   );
 
   useEffect(() => {
-    if (currentPage === 1) navigate(`/page/1`);
-  }, [navigate, currentPage]);
-
-  useEffect(() => {
     if (throwError) {
       throw new Error('Test error');
     }
@@ -79,25 +75,30 @@ export const Main = () => {
         ) : errorRequest ? (
           <h2 className="search-list__error-message">Request Error</h2>
         ) : (
-          <>
-            <CardList dataCharacters={dataCharacters} />
-            <ReactPaginate
-              previousClassName="pagination__item pagination__previous"
-              nextClassName="pagination__item pagination__next"
-              previousLabel={'Previous'}
-              nextLabel={'Next'}
-              breakLabel={'...'}
-              breakClassName={'pagination__item pagination__break-me'}
-              pageCount={pageCount}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={handlePageChange}
-              containerClassName={'pagination'}
-              pageClassName={'pagination__item pagination__page'}
-              activeClassName={'pagination__item pagination__page_active'}
-              forcePage={currentPage - 1}
-            />
-          </>
+          <div className="content">
+            <div className="content__left">
+              <CardList dataCharacters={dataCharacters} />
+              <ReactPaginate
+                previousClassName="pagination__item pagination__previous"
+                nextClassName="pagination__item pagination__next"
+                previousLabel={'Previous'}
+                nextLabel={'Next'}
+                breakLabel={'...'}
+                breakClassName={'pagination__item pagination__break-me'}
+                pageCount={pageCount}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={handlePageChange}
+                containerClassName={'pagination'}
+                pageClassName={'pagination__item pagination__page'}
+                activeClassName={'pagination__item pagination__page_active'}
+                forcePage={currentPage - 1}
+              />
+            </div>
+            <div className="content__right">
+              <Outlet />
+            </div>
+          </div>
         )}
       </article>
     </main>

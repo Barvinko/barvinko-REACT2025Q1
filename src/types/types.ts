@@ -5,11 +5,11 @@ export type ResponseStarWars = {
   results: Character[];
 };
 
-export type Character = {
+export interface Character {
   name: string;
   height: string;
   mass: string;
   birth_year: string;
   gender: string;
   url: string;
-};
+}

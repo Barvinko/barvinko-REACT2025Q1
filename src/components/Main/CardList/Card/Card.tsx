@@ -1,27 +1,23 @@
-import { Character } from '../../../../types/types';
+import { useParams, useNavigate } from 'react-router-dom';
+import './Card.css';
 
-export const Card = ({
-  name,
-  birth_year,
-  gender,
-  height,
-  mass,
-  url,
-}: Character) => {
+interface CardProps {
+  name: string;
+  url: string;
+}
+
+export const Card = ({ name, url }: CardProps) => {
+  const { page } = useParams<{ page: string }>();
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    const parts = url.split('/');
+    navigate(`/page/${page}/details/${parts[parts.length - 2]}`);
+  };
+
   return (
-    <div className="card">
-      <div className="card__title">
-        <h3>{name}</h3>
-      </div>
-      <div className="card__info">
-        <p>Birth Year: {birth_year}</p>
-        <p>Gender: {gender}</p>
-        <p>Height: {height}</p>
-        <p>Mass: {mass}</p>
-        <p>
-          <a href={url}>Link</a>
-        </p>
-      </div>
+    <div className="card" onClick={handleClick}>
+      <h3>{name}</h3>
     </div>
   );
 };

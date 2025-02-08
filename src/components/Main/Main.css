@@ -78,3 +78,17 @@
 .pagination__page_active a {
   color: white;
 }
+
+.content {
+  display: flex;
+}
+
+.content__left {
+  flex: 1;
+}
+
+.content__right {
+  flex: 1;
+  padding: 20px;
+  border-left: 1px solid #ccc;
+}
