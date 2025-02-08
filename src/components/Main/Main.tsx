@@ -11,15 +11,17 @@ export const Main = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const params = new URLSearchParams(location.search);
-  const page = parseInt(params.get('page') || '1', 10);
+  const getPageNumber = (): number => {
+    const params = new URLSearchParams(location.search);
+    return parseInt(params.get('page') || '1', 10);
+  };
 
   const [URL] = useState('https://swapi.dev/api/people/?search=');
   const [dataCharacters, setDataCharacters] = useState<Character[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [errorRequest, setErrorRequest] = useState<boolean>(false);
   const [throwError, setThrowError] = useState<boolean>(false);
-  const [currentPage, setCurrentPage] = useState<number>(page);
+  const [currentPage, setCurrentPage] = useState<number>(getPageNumber());
   const [pageCount, setPageCount] = useState<number>(0);
 
   const nameRequest = useCallback(
@@ -40,6 +42,10 @@ export const Main = () => {
     },
     [URL]
   );
+
+  useEffect(() => {
+    if (currentPage == 1) navigate(`?page=1`);
+  }, [navigate, currentPage]);
 
   useEffect(() => {
     if (throwError) {
