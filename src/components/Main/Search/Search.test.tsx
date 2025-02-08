@@ -1,10 +1,19 @@
 import { render, screen, fireEvent } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import { Search } from './Search';
 import { vi } from 'vitest';
 
 test('renders Search component and handles input', () => {
   const mockNameRequest = vi.fn();
-  render(<Search nameRequest={mockNameRequest} />);
+  render(
+    <MemoryRouter>
+      <Search
+        page={1}
+        nameRequest={mockNameRequest}
+        handlePageChange={vi.fn()}
+      />
+    </MemoryRouter>
+  );
 
   const input = screen.getByPlaceholderText('Name...');
   fireEvent.change(input, { target: { value: 'Luke' } });
@@ -12,11 +21,15 @@ test('renders Search component and handles input', () => {
 
   const button = screen.getByText('Search');
   fireEvent.click(button);
-  expect(mockNameRequest).toHaveBeenCalledWith('Luke');
+  expect(mockNameRequest).toHaveBeenCalledWith('Luke', 1);
 });
 
 test('displays error message for invalid input', () => {
-  render(<Search nameRequest={vi.fn()} />);
+  render(
+    <MemoryRouter>
+      <Search page={1} nameRequest={vi.fn()} handlePageChange={vi.fn()} />
+    </MemoryRouter>
+  );
 
   const input = screen.getByPlaceholderText('Name...');
   fireEvent.change(input, { target: { value: 'Luke@' } });
@@ -31,8 +44,16 @@ test('loads initial value from local storage', () => {
     JSON.stringify('Leia')
   );
   const mockNameRequest = vi.fn();
-  render(<Search nameRequest={mockNameRequest} />);
-  expect(mockNameRequest).toHaveBeenCalledWith('Leia');
+  render(
+    <MemoryRouter>
+      <Search
+        page={1}
+        nameRequest={mockNameRequest}
+        handlePageChange={vi.fn()}
+      />
+    </MemoryRouter>
+  );
+  expect(mockNameRequest).toHaveBeenCalledWith('Leia', 1);
 });
 
 test('calls nameRequest on mount with localName', () => {
@@ -41,6 +62,14 @@ test('calls nameRequest on mount with localName', () => {
     'Barvinko-classComponents__name',
     JSON.stringify('Leia')
   );
-  render(<Search nameRequest={mockNameRequest} />);
-  expect(mockNameRequest).toHaveBeenCalledWith('Leia');
+  render(
+    <MemoryRouter>
+      <Search
+        page={1}
+        nameRequest={mockNameRequest}
+        handlePageChange={vi.fn()}
+      />
+    </MemoryRouter>
+  );
+  expect(mockNameRequest).toHaveBeenCalledWith('Leia', 1);
 });
