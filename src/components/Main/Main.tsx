@@ -79,16 +79,19 @@ export const Main = () => {
           <>
             <CardList dataCharacters={dataCharacters} />
             <ReactPaginate
+              previousClassName="pagination__item pagination__previous"
+              nextClassName="pagination__item pagination__next"
               previousLabel={'Previous'}
               nextLabel={'Next'}
               breakLabel={'...'}
-              breakClassName={'break-me'}
+              breakClassName={'pagination__item pagination__break-me'}
               pageCount={pageCount}
               marginPagesDisplayed={2}
               pageRangeDisplayed={5}
               onPageChange={handlePageChange}
               containerClassName={'pagination'}
-              activeClassName={'active'}
+              pageClassName={'pagination__item pagination__page'}
+              activeClassName={'pagination__item pagination__page_active'}
               forcePage={currentPage - 1}
             />
           </>
