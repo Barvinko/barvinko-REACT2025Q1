@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { Header } from '@components/Header/Header';
 import { Main } from '@components/Main/Main';
 import { Details } from '@components/Main/Details/Details';
@@ -11,7 +11,7 @@ function App() {
     <ErrorBoundary>
       <Header />
       <Routes>
-        <Route path="/" element={<Main />}></Route>
+        <Route path="/" element={<Navigate to="/page/1" replace />} />
         <Route path="page/:page" element={<Main />}>
           <Route path="details/:id" element={<Details />} />
         </Route>
