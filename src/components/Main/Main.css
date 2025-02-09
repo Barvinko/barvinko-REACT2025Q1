@@ -84,11 +84,9 @@
 }
 
 .content__left {
-  flex: 1;
+  width: 100%;
 }
 
-.content__right {
-  flex: 1;
-  padding: 20px;
-  border-left: 1px solid #ccc;
+.content-right.modal-open .content__left {
+  width: 60%;
 }

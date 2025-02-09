@@ -95,9 +95,7 @@ export const Main = () => {
                 forcePage={currentPage - 1}
               />
             </div>
-            <div className="content__right">
-              <Outlet />
-            </div>
+            <Outlet />
           </div>
         )}
       </article>
