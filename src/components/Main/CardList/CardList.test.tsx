@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import { CardList } from './CardList';
 import { Character } from '@/src/types/types';
 
@@ -22,7 +23,11 @@ const mockCharacters: Character[] = [
 ];
 
 test('renders CardList component with characters', () => {
-  render(<CardList dataCharacters={mockCharacters} />);
+  render(
+    <MemoryRouter>
+      <CardList dataCharacters={mockCharacters} />
+    </MemoryRouter>
+  );
   expect(screen.getByText('Luke Skywalker')).toBeInTheDocument();
   expect(screen.getByText('Darth Vader')).toBeInTheDocument();
 });

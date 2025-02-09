@@ -12,7 +12,10 @@ export const Card = ({ name, url }: CardProps) => {
 
   const handleClick = () => {
     const parts = url.split('/');
-    navigate(`/page/${page}/details/${parts[parts.length - 2]}`);
+    const id = parts[parts.length - 2];
+    if (id && !isNaN(Number(id))) {
+      navigate(`/page/${page}/details/${id}`);
+    }
   };
 
   return (

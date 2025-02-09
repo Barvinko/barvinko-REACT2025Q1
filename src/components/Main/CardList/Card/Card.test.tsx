@@ -1,6 +1,8 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { MemoryRouter, Route, Routes, useNavigate } from 'react-router-dom';
 import { Card } from './Card';
 import { Character } from '@/src/types/types';
+import { vi } from 'vitest';
 
 const mockCharacter: Character = {
   name: 'Luke Skywalker',
@@ -11,15 +13,55 @@ const mockCharacter: Character = {
   url: 'https://swapi.dev/api/people/1/',
 };
 
-test('renders Card component with character details', () => {
-  render(<Card {...mockCharacter} />);
-  expect(screen.getByText('Luke Skywalker')).toBeInTheDocument();
-  expect(screen.getByText('Birth Year: 19BBY')).toBeInTheDocument();
-  expect(screen.getByText('Gender: male')).toBeInTheDocument();
-  expect(screen.getByText('Height: 172')).toBeInTheDocument();
-  expect(screen.getByText('Mass: 77')).toBeInTheDocument();
-  expect(screen.getByText('Link')).toHaveAttribute(
-    'href',
-    'https://swapi.dev/api/people/1/'
+vi.mock('react-router-dom', async (importOriginal) => {
+  const actual = (await importOriginal()) as typeof import('react-router-dom');
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+  };
+});
+
+test('renders Card component with character name', () => {
+  render(
+    <MemoryRouter initialEntries={['/page/1']}>
+      <Routes>
+        <Route path="/page/:page" element={<Card {...mockCharacter} />} />
+      </Routes>
+    </MemoryRouter>
   );
+  expect(screen.getByText('Luke Skywalker')).toBeInTheDocument();
+});
+
+test('navigates to details page on click', () => {
+  const navigate = vi.fn();
+  vi.mocked(useNavigate).mockReturnValue(navigate);
+
+  render(
+    <MemoryRouter initialEntries={['/page/1']}>
+      <Routes>
+        <Route path="/page/:page" element={<Card {...mockCharacter} />} />
+      </Routes>
+    </MemoryRouter>
+  );
+
+  fireEvent.click(screen.getByText('Luke Skywalker'));
+  expect(navigate).toHaveBeenCalledWith('/page/1/details/1');
+});
+
+test('does not navigate if URL is invalid', () => {
+  const navigate = vi.fn();
+  vi.mocked(useNavigate).mockReturnValue(navigate);
+
+  const invalidCharacter = { ...mockCharacter, url: 'invalid-url' };
+
+  render(
+    <MemoryRouter initialEntries={['/page/1']}>
+      <Routes>
+        <Route path="/page/:page" element={<Card {...invalidCharacter} />} />
+      </Routes>
+    </MemoryRouter>
+  );
+
+  fireEvent.click(screen.getByText('Luke Skywalker'));
+  expect(navigate).not.toHaveBeenCalled();
 });
