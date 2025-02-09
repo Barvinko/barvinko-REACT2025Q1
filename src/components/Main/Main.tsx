@@ -74,6 +74,8 @@ export const Main = () => {
           <div className="search-list__spinner"></div>
         ) : errorRequest ? (
           <h2 className="search-list__error-message">Request Error</h2>
+        ) : !dataCharacters[0] ? (
+          <h2 className="search-list__error-message">Nothing Found</h2>
         ) : (
           <div className="content">
             <div className="content__left">
