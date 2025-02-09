@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getData } from '@utilits/getData';
 import Modal from 'react-modal';
+import { Spinner } from '@components/UI/Spinner/Spinner';
 import { Character } from '@/src/types/types';
 import './Details.css';
 
@@ -47,7 +48,9 @@ export const Details = () => {
       >
         <button onClick={handleClose}>Close</button>
         {loading ? (
-          <div className="details__spinner"></div>
+          <div className="details__spinner">
+            <Spinner />
+          </div>
         ) : character?.name ? (
           <div>
             <h2>{character.name}</h2>

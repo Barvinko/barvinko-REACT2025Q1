@@ -4,6 +4,7 @@ import ReactPaginate from 'react-paginate';
 import { Search } from './Search/Search';
 import { CardList } from './CardList/CardList';
 import { ButtonError } from './ButtonError/ButtonError';
+import { Spinner } from '@components/UI/Spinner/Spinner';
 import { getData } from '@utilits/getData';
 import { ResponseStarWars, Character } from '@/src/types/types';
 import './Main.css';
@@ -64,7 +65,7 @@ export const Main = () => {
         />
         <ButtonError />
         {loading ? (
-          <div className="search-list__spinner"></div>
+          <Spinner />
         ) : errorRequest ? (
           <h2 className="search-list__error-message">Nothing Found</h2>
         ) : (
