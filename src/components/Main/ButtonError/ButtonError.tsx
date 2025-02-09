@@ -11,13 +11,8 @@ export const ButtonError = () => {
   }, [throwError]);
 
   return (
-    <section className="search-list__test-error">
-      <button
-        className="search-list__button-error"
-        onClick={() => setThrowError(true)}
-      >
-        Throw Error
-      </button>
+    <section className="button-error">
+      <button onClick={() => setThrowError(true)}>Throw Error</button>
     </section>
   );
 };
