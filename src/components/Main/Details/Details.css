@@ -6,6 +6,9 @@
   position: fixed;
   display: flex;
   flex-direction: row-reverse;
+  align-items: center;
+
+  min-width: 620px;
   inset: 0px;
   background-color: rgba(0, 0, 0, 0.411);
 }
@@ -15,7 +18,8 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
   padding: 20px;
-  width: 100vw;
+  width: 300px;
+  height: fit-content;
   border-radius: 8px;
   min-width: 150px;
   max-width: 250px;

@@ -43,6 +43,7 @@ export const Details = () => {
         className="details__content"
         isOpen={modalFlag}
         onRequestClose={handleClose}
+        ariaHideApp={false}
       >
         <button onClick={handleClose}>Close</button>
         {loading ? (
