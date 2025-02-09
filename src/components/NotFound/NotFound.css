@@ -1,0 +1,24 @@
+.not-found {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.not-found__title {
+  font-size: 72px;
+  margin-bottom: 20px;
+}
+
+.not-found__text {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.not-found__link {
+  font-size: 18px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.not-found__link:hover {
+  text-decoration: underline;
+}

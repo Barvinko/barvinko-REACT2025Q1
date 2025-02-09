@@ -1,0 +1,32 @@
+.content__right_active {
+  width: 300px;
+}
+
+.details {
+  position: fixed;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+
+  min-width: 620px;
+  inset: 0px;
+  background-color: rgba(0, 0, 0, 0.411);
+}
+
+.details__content {
+  background-color: #1d1d1d;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  padding: 20px;
+  width: 300px;
+  height: fit-content;
+  border-radius: 8px;
+  min-width: 150px;
+  max-width: 250px;
+}
+
+.details__spinner {
+  position: absolute;
+  top: 40%;
+  left: 40%;
+}
