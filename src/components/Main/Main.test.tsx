@@ -73,19 +73,6 @@ test('sets errorRequest to true when dataRequest results are empty', async () =>
   });
 });
 
-test('throws error when throwError is true', () => {
-  const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
-  expect(() => {
-    render(
-      <MemoryRouter>
-        <Main />
-      </MemoryRouter>
-    );
-    fireEvent.click(screen.getByText('Throw Error'));
-  }).toThrow('Test error');
-  consoleError.mockRestore();
-});
-
 test('handles pagination', async () => {
   render(
     <MemoryRouter initialEntries={['/?page=1']}>

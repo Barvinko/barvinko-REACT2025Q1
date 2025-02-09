@@ -1,8 +1,9 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useNavigate, useParams, Outlet } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 import { Search } from './Search/Search';
 import { CardList } from './CardList/CardList';
+import { ButtonError } from './ButtonError/ButtonError';
 import { getData } from '@utilits/getData';
 import { ResponseStarWars, Character } from '@/src/types/types';
 import './Main.css';
@@ -15,7 +16,6 @@ export const Main = () => {
   const [dataCharacters, setDataCharacters] = useState<Character[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [errorRequest, setErrorRequest] = useState<boolean>(false);
-  const [throwError, setThrowError] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(
     parseInt(page || '1', 10)
   );
@@ -46,12 +46,6 @@ export const Main = () => {
     [URL]
   );
 
-  useEffect(() => {
-    if (throwError) {
-      throw new Error('Test error');
-    }
-  }, [throwError]);
-
   const handlePageChange = ({ selected }: { selected: number }) => {
     const newPage = selected + 1;
     setCurrentPage(newPage);
@@ -68,14 +62,7 @@ export const Main = () => {
             handlePageChange({ selected: value })
           }
         />
-        <section className="search-list__test-error">
-          <button
-            className="search-list__button-error"
-            onClick={() => setThrowError(true)}
-          >
-            Throw Error
-          </button>
-        </section>
+        <ButtonError />
         {loading ? (
           <div className="search-list__spinner"></div>
         ) : errorRequest ? (
