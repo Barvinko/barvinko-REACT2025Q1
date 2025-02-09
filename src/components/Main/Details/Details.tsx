@@ -48,7 +48,7 @@ export const Details = () => {
         <button onClick={handleClose}>Close</button>
         {loading ? (
           <div className="details__spinner"></div>
-        ) : character ? (
+        ) : character?.name ? (
           <div>
             <h2>{character.name}</h2>
             <p>Birth Year: {character.birth_year}</p>

@@ -24,14 +24,20 @@ export const Main = () => {
   const nameRequest = useCallback(
     (name: string, page: number = 1): void => {
       setLoading(true);
+      setErrorRequest(false);
       getData<ResponseStarWars>(`${URL}${name}&page=${page}`)
         .then((dataRequest) => {
-          setDataCharacters(dataRequest.results);
-          setPageCount(Math.ceil(dataRequest.count / 10));
+          if (dataRequest.results.length === 0) {
+            setErrorRequest(true);
+          } else {
+            setDataCharacters(dataRequest.results);
+            setPageCount(Math.ceil(dataRequest.count / 10));
+          }
         })
         .catch((error: Error) => {
           console.error('Data retrieval error:', error);
           setErrorRequest(true);
+          setDataCharacters([]);
         })
         .finally(() => {
           setLoading(false);
@@ -73,8 +79,6 @@ export const Main = () => {
         {loading ? (
           <div className="search-list__spinner"></div>
         ) : errorRequest ? (
-          <h2 className="search-list__error-message">Request Error</h2>
-        ) : !dataCharacters[0] ? (
           <h2 className="search-list__error-message">Nothing Found</h2>
         ) : (
           <div className="content">

@@ -50,7 +50,26 @@ test('displays error message on request error', async () => {
   fireEvent.click(button);
 
   await waitFor(() => {
-    expect(screen.getByText('Request Error')).toBeInTheDocument();
+    expect(screen.getByText('Nothing Found')).toBeInTheDocument();
+  });
+});
+
+test('sets errorRequest to true when dataRequest results are empty', async () => {
+  vi.mocked(getData).mockImplementationOnce(() =>
+    Promise.resolve({ results: [], count: 0 })
+  );
+  render(
+    <MemoryRouter>
+      <Main />
+    </MemoryRouter>
+  );
+  const input = screen.getByPlaceholderText('Name...');
+  fireEvent.change(input, { target: { value: 'Nonexistent Character' } });
+  const button = screen.getByText('Search');
+  fireEvent.click(button);
+
+  await waitFor(() => {
+    expect(screen.getByText('Nothing Found')).toBeInTheDocument();
   });
 });
 
