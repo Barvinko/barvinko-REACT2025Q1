@@ -9,6 +9,7 @@ export default defineConfig({
       '@components': resolve(__dirname, 'src/components'),
       '@utilits': resolve(__dirname, 'src/utilits'),
       '@/src/types': resolve(__dirname, 'src/types'),
+      '@store': resolve(__dirname, 'src/store'),
     },
   },
   test: {

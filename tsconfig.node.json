@@ -25,7 +25,8 @@
     "paths": {
       "@components/*": ["src/components/*"],
       "@/src/types/*": ["src/types/*"],
-      "@utilits/*": ["src/utilits/*"]
+      "@utilits/*": ["src/utilits/*"],
+      "@store/*": ["src/store/*"]
     }
   },
   "include": ["vite.config.ts"]

@@ -5,47 +5,22 @@ import { Search } from './Search/Search';
 import { CardList } from './CardList/CardList';
 import { ButtonError } from './ButtonError/ButtonError';
 import { Spinner } from '@components/UI/Spinner/Spinner';
-import { getData } from '@utilits/getData';
-import { ResponseStarWars, Character } from '@/src/types/types';
+import { useGetCharactersQuery } from '@store/api';
 import './Main.css';
 
 export const Main = () => {
   const navigate = useNavigate();
   const { page } = useParams<{ page: string }>();
 
-  const [URL] = useState('https://swapi.dev/api/people/?search=');
-  const [dataCharacters, setDataCharacters] = useState<Character[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [errorRequest, setErrorRequest] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(
     parseInt(page || '1', 10)
   );
-  const [pageCount, setPageCount] = useState<number>(0);
+  const [searchName, setSearchName] = useState<string>('');
 
-  const nameRequest = useCallback(
-    (name: string, page: number = 1): void => {
-      setLoading(true);
-      setErrorRequest(false);
-      getData<ResponseStarWars>(`${URL}${name}&page=${page}`)
-        .then((dataRequest) => {
-          if (dataRequest.results.length === 0) {
-            setErrorRequest(true);
-          } else {
-            setDataCharacters(dataRequest.results);
-            setPageCount(Math.ceil(dataRequest.count / 10));
-          }
-        })
-        .catch((error: Error) => {
-          console.error('Data retrieval error:', error);
-          setErrorRequest(true);
-          setDataCharacters([]);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    },
-    [URL]
-  );
+  const { data, error, isFetching } = useGetCharactersQuery({
+    name: searchName,
+    page: currentPage,
+  });
 
   const handlePageChange = ({ selected }: { selected: number }) => {
     const newPage = selected + 1;
@@ -53,25 +28,28 @@ export const Main = () => {
     navigate(`/page/${newPage}`);
   };
 
+  const handleSearch = useCallback(
+    (name: string, page: number) => {
+      setSearchName(name);
+      setCurrentPage(page);
+      navigate(`/page/${page}`);
+    },
+    [navigate]
+  );
+
   return (
     <main className="main">
       <article className="search-list">
-        <Search
-          page={currentPage}
-          nameRequest={nameRequest}
-          handlePageChange={(value: number) =>
-            handlePageChange({ selected: value })
-          }
-        />
+        <Search nameRequest={handleSearch} />
         <ButtonError />
-        {loading ? (
+        {isFetching ? (
           <Spinner />
-        ) : errorRequest ? (
+        ) : error ? (
           <h2 className="search-list__error-message">Nothing Found</h2>
         ) : (
           <div className="content">
             <div className="content__left">
-              <CardList dataCharacters={dataCharacters} />
+              <CardList dataCharacters={data?.results || []} />
               <ReactPaginate
                 previousClassName="pagination__item pagination__previous"
                 nextClassName="pagination__item pagination__next"
@@ -79,7 +57,7 @@ export const Main = () => {
                 nextLabel={'Next'}
                 breakLabel={'...'}
                 breakClassName={'pagination__item pagination__break-me'}
-                pageCount={pageCount}
+                pageCount={Math.ceil((data?.count || 0) / 10)}
                 marginPagesDisplayed={2}
                 pageRangeDisplayed={5}
                 onPageChange={handlePageChange}
