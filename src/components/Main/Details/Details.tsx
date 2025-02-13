@@ -1,32 +1,22 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getData } from '@utilits/getData';
 import Modal from 'react-modal';
 import { Spinner } from '@components/UI/Spinner/Spinner';
-import { Character } from '@/src/types/types';
+import { useGetDetailsQuery } from '@store/api';
 import './Details.css';
 
 export const Details = () => {
   const { page, id } = useParams<{ page: string; id: string }>();
   const navigate = useNavigate();
   const [modalFlag, setModalFlag] = useState(false);
-  const [character, setCharacter] = useState<Character | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+
+  const { data, error, isFetching } = useGetDetailsQuery({
+    id: id ? id : '',
+  });
 
   useEffect(() => {
     if (id) {
       setModalFlag(true);
-      setLoading(true);
-      getData<Character>(`https://swapi.dev/api/people/${id}/`)
-        .then((data) => {
-          setCharacter(data);
-        })
-        .catch((error: Error) => {
-          console.error('Details retrieval error:', error);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
     }
   }, [id]);
 
@@ -47,20 +37,20 @@ export const Details = () => {
         ariaHideApp={false}
       >
         <button onClick={handleClose}>Close</button>
-        {loading ? (
+        {isFetching ? (
           <div className="details__spinner">
             <Spinner />
           </div>
-        ) : character?.name ? (
-          <div>
-            <h2>{character.name}</h2>
-            <p>Birth Year: {character.birth_year}</p>
-            <p>Gender: {character.gender}</p>
-            <p>Height: {character.height}</p>
-            <p>Mass: {character.mass}</p>
-          </div>
-        ) : (
+        ) : error || !data ? (
           <p>No character details available.</p>
+        ) : (
+          <div>
+            <h2>{data.name}</h2>
+            <p>Birth Year: {data.birth_year}</p>
+            <p>Gender: {data.gender}</p>
+            <p>Height: {data.height}</p>
+            <p>Mass: {data.mass}</p>
+          </div>
         )}
       </Modal>
     </div>
