@@ -1,7 +1,7 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Spinner } from './Spinner';
 
 test('renders Spinner component', () => {
-  const { container } = render(<Spinner />);
-  expect(container.querySelector('.spinner')).toBeInTheDocument();
+  render(<Spinner />);
+  expect(screen.getByTestId('spinner')).toBeInTheDocument();
 });

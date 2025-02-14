@@ -1,29 +1,49 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { getData } from '@utilits/getData';
+import { Provider } from 'react-redux';
+import { store } from '@store/store';
 import { Main } from './Main';
 import { vi } from 'vitest';
+import { useGetCharactersQuery } from '@store/api';
 
-vi.mock('@utilits/getData', () => ({
-  getData: vi.fn(() =>
-    Promise.resolve({ results: [{ name: 'Luke Skywalker' }], count: 1 })
-  ),
-}));
+vi.mock('@store/api', async (importOriginal) => {
+  const actual = (await importOriginal()) as typeof import('@store/api');
+  return {
+    ...actual,
+    useGetCharactersQuery: vi.fn(),
+  };
+});
 
 test('renders Main component', () => {
+  (useGetCharactersQuery as jest.Mock).mockReturnValue({
+    data: { results: [] },
+    isFetching: false,
+    error: null,
+  });
+
   render(
-    <MemoryRouter>
-      <Main />
-    </MemoryRouter>
+    <Provider store={store}>
+      <MemoryRouter>
+        <Main />
+      </MemoryRouter>
+    </Provider>
   );
   expect(screen.getByText('Throw Error')).toBeInTheDocument();
 });
 
 test('handles search and displays results', async () => {
+  (useGetCharactersQuery as jest.Mock).mockReturnValue({
+    data: { results: [{ name: 'Luke Skywalker' }] },
+    isFetching: false,
+    error: null,
+  });
+
   render(
-    <MemoryRouter>
-      <Main />
-    </MemoryRouter>
+    <Provider store={store}>
+      <MemoryRouter>
+        <Main />
+      </MemoryRouter>
+    </Provider>
   );
   const input = screen.getByPlaceholderText('Name...');
   fireEvent.change(input, { target: { value: 'Luke' } });
@@ -36,37 +56,19 @@ test('handles search and displays results', async () => {
 });
 
 test('displays error message on request error', async () => {
-  vi.mocked(getData).mockImplementationOnce(() =>
-    Promise.reject(new Error('Request failed'))
-  );
-  render(
-    <MemoryRouter>
-      <Main />
-    </MemoryRouter>
-  );
-  const input = screen.getByPlaceholderText('Name...');
-  fireEvent.change(input, { target: { value: 'Luke' } });
-  const button = screen.getByText('Search');
-  fireEvent.click(button);
-
-  await waitFor(() => {
-    expect(screen.getByText('Nothing Found')).toBeInTheDocument();
+  (useGetCharactersQuery as jest.Mock).mockReturnValue({
+    data: null,
+    isFetching: false,
+    error: { status: 404 },
   });
-});
 
-test('sets errorRequest to true when dataRequest results are empty', async () => {
-  vi.mocked(getData).mockImplementationOnce(() =>
-    Promise.resolve({ results: [], count: 0 })
-  );
   render(
-    <MemoryRouter>
-      <Main />
-    </MemoryRouter>
+    <Provider store={store}>
+      <MemoryRouter>
+        <Main />
+      </MemoryRouter>
+    </Provider>
   );
-  const input = screen.getByPlaceholderText('Name...');
-  fireEvent.change(input, { target: { value: 'Nonexistent Character' } });
-  const button = screen.getByText('Search');
-  fireEvent.click(button);
 
   await waitFor(() => {
     expect(screen.getByText('Nothing Found')).toBeInTheDocument();
@@ -74,10 +76,18 @@ test('sets errorRequest to true when dataRequest results are empty', async () =>
 });
 
 test('handles pagination', async () => {
+  (useGetCharactersQuery as jest.Mock).mockReturnValue({
+    data: { results: [{ name: 'Luke Skywalker' }], count: 20 },
+    isFetching: false,
+    error: null,
+  });
+
   render(
-    <MemoryRouter initialEntries={['/?page=1']}>
-      <Main />
-    </MemoryRouter>
+    <Provider store={store}>
+      <MemoryRouter initialEntries={['/page/1']}>
+        <Main />
+      </MemoryRouter>
+    </Provider>
   );
 
   await waitFor(() => {
@@ -90,4 +100,22 @@ test('handles pagination', async () => {
   await waitFor(() => {
     expect(screen.getByText('Luke Skywalker')).toBeInTheDocument();
   });
+});
+
+test('displays loading spinner while fetching data', () => {
+  (useGetCharactersQuery as jest.Mock).mockReturnValue({
+    data: null,
+    isFetching: true,
+    error: null,
+  });
+
+  render(
+    <Provider store={store}>
+      <MemoryRouter>
+        <Main />
+      </MemoryRouter>
+    </Provider>
+  );
+
+  expect(screen.getByTestId('spinner')).toBeInTheDocument();
 });
