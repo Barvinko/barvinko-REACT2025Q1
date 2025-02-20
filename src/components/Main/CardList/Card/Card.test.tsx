@@ -1,5 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter, Route, Routes, useNavigate } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from '@store/store';
 import { Card } from './Card';
 import { Character } from '@/src/types/types';
 import { vi } from 'vitest';
@@ -23,11 +25,13 @@ vi.mock('react-router-dom', async (importOriginal) => {
 
 test('renders Card component with character name', () => {
   render(
-    <MemoryRouter initialEntries={['/page/1']}>
-      <Routes>
-        <Route path="/page/:page" element={<Card {...mockCharacter} />} />
-      </Routes>
-    </MemoryRouter>
+    <Provider store={store}>
+      <MemoryRouter initialEntries={['/page/1']}>
+        <Routes>
+          <Route path="/page/:page" element={<Card {...mockCharacter} />} />
+        </Routes>
+      </MemoryRouter>
+    </Provider>
   );
   expect(screen.getByText('Luke Skywalker')).toBeInTheDocument();
 });
@@ -37,11 +41,13 @@ test('navigates to details page on click', () => {
   vi.mocked(useNavigate).mockReturnValue(navigate);
 
   render(
-    <MemoryRouter initialEntries={['/page/1']}>
-      <Routes>
-        <Route path="/page/:page" element={<Card {...mockCharacter} />} />
-      </Routes>
-    </MemoryRouter>
+    <Provider store={store}>
+      <MemoryRouter initialEntries={['/page/1']}>
+        <Routes>
+          <Route path="/page/:page" element={<Card {...mockCharacter} />} />
+        </Routes>
+      </MemoryRouter>
+    </Provider>
   );
 
   fireEvent.click(screen.getByText('Luke Skywalker'));
@@ -55,11 +61,13 @@ test('does not navigate if URL is invalid', () => {
   const invalidCharacter = { ...mockCharacter, url: 'invalid-url' };
 
   render(
-    <MemoryRouter initialEntries={['/page/1']}>
-      <Routes>
-        <Route path="/page/:page" element={<Card {...invalidCharacter} />} />
-      </Routes>
-    </MemoryRouter>
+    <Provider store={store}>
+      <MemoryRouter initialEntries={['/page/1']}>
+        <Routes>
+          <Route path="/page/:page" element={<Card {...invalidCharacter} />} />
+        </Routes>
+      </MemoryRouter>
+    </Provider>
   );
 
   fireEvent.click(screen.getByText('Luke Skywalker'));
