@@ -33,7 +33,11 @@ test('renders Main component', () => {
 
 test('handles search and displays results', async () => {
   (useGetCharactersQuery as jest.Mock).mockReturnValue({
-    data: { results: [{ name: 'Luke Skywalker' }] },
+    data: {
+      results: [
+        { name: 'Luke Skywalker', url: 'https://swapi.dev/api/people/1/' },
+      ],
+    },
     isFetching: false,
     error: null,
   });
@@ -77,7 +81,12 @@ test('displays error message on request error', async () => {
 
 test('handles pagination', async () => {
   (useGetCharactersQuery as jest.Mock).mockReturnValue({
-    data: { results: [{ name: 'Luke Skywalker' }], count: 20 },
+    data: {
+      results: [
+        { name: 'Luke Skywalker', url: 'https://swapi.dev/api/people/1/' },
+      ],
+      count: 20,
+    },
     isFetching: false,
     error: null,
   });
