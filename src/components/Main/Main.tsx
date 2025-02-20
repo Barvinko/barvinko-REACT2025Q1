@@ -5,6 +5,9 @@ import { Search } from './Search/Search';
 import { CardList } from './CardList/CardList';
 import { ButtonError } from './ButtonError/ButtonError';
 import { Spinner } from '@components/UI/Spinner/Spinner';
+import { Store } from './Store/Store';
+import { useSelector } from 'react-redux';
+import { RootState } from '@store/store';
 import { useGetCharactersQuery } from '@store/api';
 import './Main.css';
 
@@ -21,6 +24,9 @@ export const Main = () => {
     name: searchName,
     page: currentPage,
   });
+  const selectedCards = useSelector(
+    (state: RootState) => state.selectedCards.selectedCards
+  );
 
   const handlePageChange = ({ selected }: { selected: number }) => {
     const newPage = selected + 1;
@@ -39,7 +45,9 @@ export const Main = () => {
 
   return (
     <main className="main">
-      <article className="search-list">
+      <article
+        className={`search-list ${selectedCards.length > 0 ? 'search-list_selected' : ''}`}
+      >
         <Search nameRequest={handleSearch} />
         <ButtonError />
         {isFetching ? (
@@ -70,6 +78,7 @@ export const Main = () => {
             <Outlet />
           </div>
         )}
+        <Store />
       </article>
     </main>
   );

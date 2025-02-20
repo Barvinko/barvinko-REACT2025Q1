@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { starWarsApi } from './api';
-import selectedItemsReducer from './selectedItemsSlice';
+import selectedCardsSlice from './selectedCardsSlice';
 
 export const store = configureStore({
   reducer: {
     [starWarsApi.reducerPath]: starWarsApi.reducer,
-    selectedItems: selectedItemsReducer,
+    selectedCards: selectedCardsSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(starWarsApi.middleware),

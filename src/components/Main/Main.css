@@ -10,6 +10,10 @@
   flex-grow: 1;
 }
 
+.search-list_selected {
+  padding-bottom: 60px;
+}
+
 .search-list__test-error {
   margin-top: 10px;
 }
