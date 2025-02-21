@@ -1,14 +1,18 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from '@store/store';
 import { Search } from './Search';
 import { vi } from 'vitest';
 
 test('renders Search component and handles input', () => {
   const mockNameRequest = vi.fn();
   render(
-    <MemoryRouter>
-      <Search nameRequest={mockNameRequest} />
-    </MemoryRouter>
+    <Provider store={store}>
+      <MemoryRouter>
+        <Search nameRequest={mockNameRequest} />
+      </MemoryRouter>
+    </Provider>
   );
 
   const input = screen.getByPlaceholderText('Name...');
@@ -22,9 +26,11 @@ test('renders Search component and handles input', () => {
 
 test('displays error message for invalid input', () => {
   render(
-    <MemoryRouter>
-      <Search nameRequest={vi.fn()} />
-    </MemoryRouter>
+    <Provider store={store}>
+      <MemoryRouter>
+        <Search nameRequest={vi.fn()} />
+      </MemoryRouter>
+    </Provider>
   );
 
   const input = screen.getByPlaceholderText('Name...');

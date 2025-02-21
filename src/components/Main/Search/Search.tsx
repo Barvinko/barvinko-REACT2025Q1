@@ -1,15 +1,17 @@
 import { useState, useCallback, ChangeEvent } from 'react';
-import { useLocalStorage } from '@utilits/useLocalStorage';
 import './Search.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@store/store';
+import { setSearchName } from '@store/localStorageSlice';
 
 interface SearchProps {
   nameRequest: (name: string, page: number) => void;
 }
 
 export const Search = ({ nameRequest }: SearchProps) => {
-  const [localName, setLocalName] = useLocalStorage<string>(
-    'Barvinko-classComponents__name',
-    ''
+  const dispatch = useDispatch();
+  const localName = useSelector(
+    (state: RootState) => state.localStorage.searchName
   );
   const [inputName, setInputName] = useState<string>(localName);
   const [regexName] = useState(/^[a-zA-Z0-9\s-]*$/);
@@ -18,8 +20,8 @@ export const Search = ({ nameRequest }: SearchProps) => {
   const handleSearchClick = useCallback(() => {
     const trimmedName = inputName.trim();
     nameRequest(trimmedName, 1);
-    setLocalName(trimmedName);
-  }, [inputName, nameRequest, setLocalName]);
+    dispatch(setSearchName(trimmedName));
+  }, [inputName, nameRequest, dispatch]);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const name = event.target.value;

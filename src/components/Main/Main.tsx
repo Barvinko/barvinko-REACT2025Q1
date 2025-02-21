@@ -6,9 +6,10 @@ import { CardList } from './CardList/CardList';
 import { ButtonError } from './ButtonError/ButtonError';
 import { Spinner } from '@components/UI/Spinner/Spinner';
 import { Store } from './Store/Store';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@store/store';
 import { useGetCharactersQuery } from '@store/api';
+import { setSearchName } from '@store/localStorageSlice';
 import './Main.css';
 
 export const Main = () => {
@@ -18,15 +19,18 @@ export const Main = () => {
   const [currentPage, setCurrentPage] = useState<number>(
     parseInt(page || '1', 10)
   );
-  const [searchName, setSearchName] = useState<string>('');
+  const dispatch = useDispatch();
+  const searchName = useSelector(
+    (state: RootState) => state.localStorage.searchName
+  );
+  const selectedCards = useSelector(
+    (state: RootState) => state.selectedCards.selectedCards
+  );
 
   const { data, error, isFetching } = useGetCharactersQuery({
     name: searchName,
     page: currentPage,
   });
-  const selectedCards = useSelector(
-    (state: RootState) => state.selectedCards.selectedCards
-  );
 
   const handlePageChange = ({ selected }: { selected: number }) => {
     const newPage = selected + 1;
@@ -36,11 +40,11 @@ export const Main = () => {
 
   const handleSearch = useCallback(
     (name: string, page: number) => {
-      setSearchName(name);
+      dispatch(setSearchName(name));
       setCurrentPage(page);
       navigate(`/page/${page}`);
     },
-    [navigate]
+    [navigate, dispatch]
   );
 
   return (
