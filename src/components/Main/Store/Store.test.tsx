@@ -1,8 +1,24 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
 import selectedCardsReducer from '@store/selectedCardsSlice';
 import { Store } from './Store';
+import { vi } from 'vitest';
+import { saveAs } from 'file-saver';
+
+vi.mock('file-saver', () => ({
+  saveAs: vi.fn(),
+}));
+
+interface InitialState {
+  selectedCards: {
+    selectedCards: Array<{
+      id: string;
+      name: string;
+      url: string;
+    }>;
+  };
+}
 
 const renderWithRedux = (
   component: JSX.Element,
@@ -12,7 +28,9 @@ const renderWithRedux = (
       reducer: { selectedCards: selectedCardsReducer },
       preloadedState: initialState,
     }),
-  } = {}
+  }: { initialState: InitialState; store?: EnhancedStore } = {
+    initialState: { selectedCards: { selectedCards: [] } },
+  }
 ) => {
   return {
     ...render(<Provider store={store}>{component}</Provider>),
@@ -89,4 +107,6 @@ test('calls download function when "Download" button is clicked', () => {
 
   const downloadButton = screen.getByText('Download');
   fireEvent.click(downloadButton);
+
+  expect(saveAs).toHaveBeenCalled();
 });
