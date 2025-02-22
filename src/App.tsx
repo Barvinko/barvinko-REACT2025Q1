@@ -5,7 +5,7 @@ import { Details } from '@components/Main/Details/Details';
 import { ErrorBoundary } from '@components/ErrorBoundary/ErrorBoundary';
 import { NotFound } from '@components/NotFound/NotFound';
 import { ThemeProvider } from '@components/ThemeProvider/ThemeProvider';
-import './App.css';
+import './App.scss';
 
 function App() {
   return (

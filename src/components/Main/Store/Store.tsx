@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@store/store';
 import { unselectCard } from '@store/selectedCardsSlice';
 import { saveAs } from 'file-saver';
-import './Store.css';
+import './Store.scss';
 
 const downloadCSV = (
   data: { name: string; url: string }[],

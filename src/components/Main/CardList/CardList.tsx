@@ -1,6 +1,6 @@
 import { Card } from './Card/Card';
 import type { Character } from '@/src/types/types';
-import './CardList.css';
+import './CardList.scss';
 
 interface CardListProps {
   dataCharacters: Character[];

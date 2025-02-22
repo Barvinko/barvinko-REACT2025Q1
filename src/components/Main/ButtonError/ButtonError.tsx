@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './ButtonError.css';
+import './ButtonError.scss';
 
 export const ButtonError = () => {
   const [throwError, setThrowError] = useState<boolean>(false);

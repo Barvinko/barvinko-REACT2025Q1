@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@store/store';
 import { useGetCharactersQuery } from '@store/api';
 import { setSearchName } from '@store/localStorageSlice';
-import './Main.css';
+import './Main.scss';
 
 export const Main = () => {
   const navigate = useNavigate();

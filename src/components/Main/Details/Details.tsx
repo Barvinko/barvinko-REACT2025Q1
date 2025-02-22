@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import { Spinner } from '@components/UI/Spinner/Spinner';
 import { useGetDetailsQuery } from '@store/api';
-import './Details.css';
+import './Details.scss';
 
 export const Details = () => {
   const { page, id } = useParams<{ page: string; id: string }>();

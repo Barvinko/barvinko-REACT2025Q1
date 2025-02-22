@@ -2,7 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@store/store';
 import { selectCard, unselectCard } from '@store/selectedCardsSlice';
-import './Card.css';
+import './Card.scss';
 
 interface CardProps {
   name: string;

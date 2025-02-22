@@ -1,5 +1,5 @@
 import { useState, useCallback, ChangeEvent } from 'react';
-import './Search.css';
+import './Search.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@store/store';
 import { setSearchName } from '@store/localStorageSlice';
