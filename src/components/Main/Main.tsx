@@ -56,7 +56,7 @@ export const Main = () => {
         <ButtonError />
         {isFetching ? (
           <Spinner />
-        ) : error ? (
+        ) : error || !data?.results.length ? (
           <h2 className="search-list__error-message">Nothing Found</h2>
         ) : (
           <div className="content">
