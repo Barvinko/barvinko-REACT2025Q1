@@ -73,3 +73,22 @@ test('does not navigate if URL is invalid', () => {
   fireEvent.click(screen.getByText('Luke Skywalker'));
   expect(navigate).not.toHaveBeenCalled();
 });
+
+test('checkbox toggles state on click', () => {
+  render(
+    <Provider store={store}>
+      <MemoryRouter>
+        <Card {...mockCharacter} />
+      </MemoryRouter>
+    </Provider>
+  );
+
+  const checkbox = screen.getByRole('checkbox');
+  expect(checkbox).not.toBeChecked();
+
+  fireEvent.click(checkbox);
+  expect(checkbox).toBeChecked();
+
+  fireEvent.click(checkbox);
+  expect(checkbox).not.toBeChecked();
+});
