@@ -1,23 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@store/store';
 import { unselectCard } from '@store/selectedCardsSlice';
-import { saveAs } from 'file-saver';
 import './Store.scss';
-
-const downloadCSV = (
-  data: { name: string; url: string }[],
-  filename: string
-) => {
-  const csvContent = [
-    'The Characters of StarWars',
-    ...data.map(
-      (character, index) => `${index + 1}.${character.name}: ${character.url}`
-    ),
-  ].join('\n');
-
-  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-  saveAs(blob, filename);
-};
 
 export const Store = () => {
   const dispatch = useDispatch();
@@ -29,9 +13,16 @@ export const Store = () => {
     selectedCards.forEach((card) => dispatch(unselectCard(card.id)));
   };
 
-  const handleDownload = () => {
-    const filename = `${selectedCards.length}_characters_of_StarWars.csv`;
-    downloadCSV(selectedCards, filename);
+  const handleDownload = (): string => {
+    const csvContent = [
+      'The Characters of StarWars',
+      ...selectedCards.map(
+        (character, index) => `${index + 1}.${character.name}: ${character.url}`
+      ),
+    ].join('\n');
+
+    const blow = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    return URL.createObjectURL(blow);
   };
 
   if (selectedCards.length === 0) return <></>;
@@ -44,9 +35,13 @@ export const Store = () => {
       <button className="store__button" onClick={handleUnselectAll}>
         Unselect all
       </button>
-      <button className="store__button" onClick={handleDownload}>
+      <a
+        href={handleDownload()}
+        download={`${selectedCards.length}_characters_of_StarWars.csv`}
+        className="button store__button"
+      >
         Download
-      </button>
+      </a>
     </div>
   );
 };

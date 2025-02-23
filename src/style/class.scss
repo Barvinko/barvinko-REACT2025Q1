@@ -5,7 +5,8 @@ input {
   padding: 8px;
 }
 
-button {
+button,
+.button {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -34,7 +35,8 @@ a:hover {
     color: theme(text-color, $dark);
   }
 
-  button {
+  button,
+  .button {
     background-color: theme(bg-button, $dark);
     color: theme(text-color, $dark);
   }

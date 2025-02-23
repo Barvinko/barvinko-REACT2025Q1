@@ -4,11 +4,10 @@ import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
 import selectedCardsReducer from '@store/selectedCardsSlice';
 import { Store } from './Store';
 import { vi } from 'vitest';
-import { saveAs } from 'file-saver';
 
-vi.mock('file-saver', () => ({
-  saveAs: vi.fn(),
-}));
+vi.stubGlobal('URL', {
+  createObjectURL: vi.fn(() => 'mock-url'),
+});
 
 interface InitialState {
   selectedCards: {
@@ -108,5 +107,5 @@ test('calls download function when "Download" button is clicked', () => {
   const downloadButton = screen.getByText('Download');
   fireEvent.click(downloadButton);
 
-  expect(saveAs).toHaveBeenCalled();
+  expect(URL.createObjectURL).toHaveBeenCalled();
 });
