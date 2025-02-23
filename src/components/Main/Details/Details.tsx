@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import { Spinner } from '@components/UI/Spinner/Spinner';
+import { ThemeContext } from '@store/ThemeContext';
 import { useGetDetailsQuery } from '@store/api';
 import './Details.scss';
 
@@ -9,6 +10,7 @@ export const Details = () => {
   const { page, id } = useParams<{ page: string; id: string }>();
   const navigate = useNavigate();
   const [modalFlag, setModalFlag] = useState(false);
+  const { theme } = useContext(ThemeContext);
 
   const { data, error, isFetching } = useGetDetailsQuery({
     id: id ? id : '',
@@ -30,7 +32,7 @@ export const Details = () => {
       className={`content__right ${modalFlag ? 'content__right_active' : ''}`}
     >
       <Modal
-        overlayClassName="details"
+        overlayClassName={`details ${theme === 'light' ? 'light' : 'dark'}`}
         className="details__content"
         isOpen={modalFlag}
         onRequestClose={handleClose}

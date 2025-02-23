@@ -14,9 +14,6 @@
 }
 
 .details__content {
-  background-color: #1d1d1d;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-
   padding: 20px;
   width: 300px;
   height: fit-content;
@@ -29,4 +26,22 @@
   position: absolute;
   top: 40%;
   left: 40%;
+}
+
+.light {
+  .details__content {
+    background-color: theme(bg-color);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.dark.details {
+  background-color: rgba(0, 0, 0, 0.411);
+}
+
+.dark {
+  .details__content {
+    background-color: #1d1d1d;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
 }
