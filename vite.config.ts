@@ -4,4 +4,19 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
   plugins: [react(), tsconfigPaths()],
+  resolve: {
+    alias: {
+      '@style': '/src/style',
+    },
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `
+          @import "@style/value.scss";
+          @import "@style/class.scss";
+        `,
+      },
+    },
+  },
 });

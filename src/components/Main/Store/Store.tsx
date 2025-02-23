@@ -38,9 +38,15 @@ export const Store = () => {
 
   return (
     <div className="store">
-      <p>{selectedCards.length} Characters are selected</p>
-      <button onClick={handleUnselectAll}>Unselect all</button>
-      <button onClick={handleDownload}>Download</button>
+      <p className="store__count">
+        {selectedCards.length} Characters are selected
+      </p>
+      <button className="store__button" onClick={handleUnselectAll}>
+        Unselect all
+      </button>
+      <button className="store__button" onClick={handleDownload}>
+        Download
+      </button>
     </div>
   );
 };

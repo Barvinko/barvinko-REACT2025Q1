@@ -4,22 +4,17 @@
   left: 0;
   width: 100%;
   min-width: 630px;
-  background-color: #1d1d1d;
-  color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.store p {
+.store__count {
   margin: 0;
 }
 
-.store button {
-  background-color: #304fcc;
-  color: white;
+.store__button {
   border: none;
   padding: 10px 20px;
   margin-left: 10px;
@@ -27,6 +22,31 @@
   border-radius: 5px;
 }
 
-.store button:hover {
-  background-color: #203a8c;
+.light {
+  .store {
+    background-color: #f5f5f5;
+    color: #333;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .store__button {
+    background-color: #dee3e3;
+  }
+}
+
+.dark {
+  .store {
+    background-color: #1d1d1d;
+    color: white;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .store__button {
+    background-color: #304fcc;
+    color: white;
+  }
+
+  .store button:hover {
+    background-color: #203a8c;
+  }
 }

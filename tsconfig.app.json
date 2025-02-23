@@ -28,7 +28,8 @@
       "@components/*": ["src/components/*"],
       "@/src/types/*": ["src/types/*"],
       "@utilits/*": ["src/utilits/*"],
-      "@store/*": ["src/store/*"]
+      "@store/*": ["src/store/*"],
+      "@style/*": ["src/style/*"]
     }
   },
   "include": ["src"]

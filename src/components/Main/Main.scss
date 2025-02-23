@@ -62,6 +62,9 @@
 .pagination__page_active a {
   color: white;
 }
+.pagination__page_active a:hover {
+  color: white;
+}
 
 .content {
   display: flex;
