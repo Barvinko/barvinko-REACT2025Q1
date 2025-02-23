@@ -1,0 +1,11 @@
+.card-list__title {
+  text-align: center;
+  font-size: 2.3rem;
+  margin-bottom: 0;
+}
+
+.card-list__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
