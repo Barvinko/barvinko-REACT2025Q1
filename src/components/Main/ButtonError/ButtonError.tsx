@@ -12,7 +12,9 @@ export const ButtonError = () => {
 
   return (
     <section className="button-error">
-      <button onClick={() => setThrowError(true)}>Throw Error</button>
+      <button className="button" onClick={() => setThrowError(true)}>
+        Throw Error
+      </button>
     </section>
   );
 };

@@ -38,11 +38,14 @@ export const Card = ({ name, url }: CardProps) => {
   return (
     <div className="card">
       <input
+        className="card__checkbox"
         type="checkbox"
         checked={isSelected}
         onChange={handleCheckboxChange}
       />
-      <h3 onClick={handleClick}>{name}</h3>
+      <h3 className="card__name" onClick={handleClick}>
+        {name}
+      </h3>
     </div>
   );
 };

@@ -1,6 +1,19 @@
+.light {
+  .spinner {
+    border-color: theme(br-spinner);
+    border-top-color: #304fcc;
+  }
+}
+.dark {
+  .spinner {
+    border-color: theme(br-spinner, $dark);
+    border-top-color: #304fcc;
+  }
+}
+
 .spinner {
-  border: 16px solid #f3f3f3;
-  border-top: 16px solid #304fcc;
+  border: 16px solid;
+  border-top: 16px solid;
   border-radius: 50%;
   width: 120px;
   height: 120px;

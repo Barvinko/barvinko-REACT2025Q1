@@ -1,5 +1,5 @@
 import { Component, ReactNode, ErrorInfo } from 'react';
-import './ErrorBoundary.scss';
+import { ErrorBoundaryComponent } from './ErrorBoundaryComponent/ErrorBoundaryComponent';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -27,14 +27,7 @@ export class ErrorBoundary extends Component<
 
   render(): ReactNode {
     if (this.state.hasError) {
-      return (
-        <article className="error-boundary">
-          <h1>Oops!</h1>
-          <h3>Something went wrong.</h3>
-          <h3>Please try again.</h3>
-          <button onClick={() => window.location.reload()}>Reload</button>
-        </article>
-      );
+      return <ErrorBoundaryComponent />;
     }
 
     return this.props.children;

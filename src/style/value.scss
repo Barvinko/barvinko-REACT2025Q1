@@ -3,7 +3,9 @@
 $light: (
   text-color: #213547,
   bg-color: #ffffff,
-  bg-button: #f9f9f9,
+  bg-button: #6e6e6e,
+  br-spinner: #cfcfcf,
+  cl-button: #ffffff,
   scrollbar-color: #ccc,
   input-bg-color: #fff,
   input-border-color: #ccc,
@@ -13,6 +15,7 @@ $dark: (
   text-color: rgba(255, 255, 255, 0.87),
   bg-color: #242424,
   bg-button: #1a1a1a,
+  br-spinner: #f3f3f3,
   scrollbar-color: #555,
   input-bg-color: #000000,
   input-border-color: #666,

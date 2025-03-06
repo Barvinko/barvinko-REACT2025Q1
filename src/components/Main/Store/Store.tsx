@@ -32,7 +32,7 @@ export const Store = () => {
       <p className="store__count">
         {selectedCards.length} Characters are selected
       </p>
-      <button className="store__button" onClick={handleUnselectAll}>
+      <button className="button store__button" onClick={handleUnselectAll}>
         Unselect all
       </button>
       <a

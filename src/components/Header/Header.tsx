@@ -6,7 +6,9 @@ export const Header = () => {
   const { theme, toggleTheme } = useContext(ThemeContext);
   return (
     <header className="header">
-      <button onClick={toggleTheme}>{theme === 'light' ? '☀️' : '🌙'}</button>
+      <button className="button" onClick={toggleTheme}>
+        {theme === 'light' ? '☀️' : '🌙'}
+      </button>
       <h1 className="header__title">The Characters of StarWars</h1>
     </header>
   );

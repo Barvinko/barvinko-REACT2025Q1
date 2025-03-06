@@ -32,17 +32,17 @@ export const Details = () => {
       className={`content__right ${modalFlag ? 'content__right_active' : ''}`}
     >
       <Modal
-        overlayClassName={`details ${theme === 'light' ? 'light' : 'dark'}`}
+        overlayClassName={`details ${theme}`}
         className="details__content"
         isOpen={modalFlag}
         onRequestClose={handleClose}
         ariaHideApp={false}
       >
-        <button onClick={handleClose}>Close</button>
+        <button className="button" onClick={handleClose}>
+          Close
+        </button>
         {isFetching ? (
-          <div className="details__spinner">
-            <Spinner />
-          </div>
+          <Spinner />
         ) : error || !data ? (
           <p>No character details available.</p>
         ) : (

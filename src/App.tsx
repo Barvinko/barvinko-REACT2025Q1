@@ -6,6 +6,7 @@ import { ErrorBoundary } from '@components/ErrorBoundary/ErrorBoundary';
 import { NotFound } from '@components/NotFound/NotFound';
 import { ThemeProvider } from '@components/ThemeProvider/ThemeProvider';
 import './App.scss';
+import './style/class.scss';
 
 function App() {
   return (

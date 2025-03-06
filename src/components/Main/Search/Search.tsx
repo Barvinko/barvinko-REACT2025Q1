@@ -44,7 +44,9 @@ export const Search = ({ nameRequest }: SearchProps) => {
         value={inputName}
         onChange={handleInputChange}
       />
-      <button onClick={handleSearchClick}>Search</button>
+      <button className="button" onClick={handleSearchClick}>
+        Search
+      </button>
       {errorMessage && <p className="search__error-message">{errorMessage}</p>}
     </section>
   );

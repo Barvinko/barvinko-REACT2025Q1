@@ -1,22 +1,11 @@
 .body {
-  position: relative;
+  width: 100%;
+  height: 100vh;
+}
 
-  width: inherit;
+.light {
   color: theme(text-color);
   background-color: theme(bg-color);
-
-  &::-webkit-scrollbar {
-    width: 12px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: theme(bg-color);
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: theme(scrollbar-color);
-    border-radius: 6px;
-  }
 }
 
 .dark {
@@ -35,7 +24,7 @@
 .container {
   min-height: 100vh;
   width: 95vw;
-  min-width: 620px;
+  min-width: inherit;
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
