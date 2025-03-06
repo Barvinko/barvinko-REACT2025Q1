@@ -1,12 +1,11 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { Header } from '@components/Header/Header';
 import { Main } from '@components/Main/Main';
 import { Details } from '@components/Main/Details/Details';
 import { ErrorBoundary } from '@components/ErrorBoundary/ErrorBoundary';
 import { NotFound } from '@components/NotFound/NotFound';
 import { ThemeProvider } from '@components/ThemeProvider/ThemeProvider';
-import './App.scss';
-import './style/class.scss';
+import '@style/index.scss';
 
 function App() {
   return (

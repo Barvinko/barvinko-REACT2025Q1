@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { ThemeContext } from '@store/ThemeContext';
-import './ErrorBoundaryComponent.scss';
+// import './ErrorBoundaryComponent.scss';
 
 export const ErrorBoundaryComponent = () => {
   const { theme } = useContext(ThemeContext);

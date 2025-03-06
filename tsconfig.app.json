@@ -32,5 +32,5 @@
       "@style/*": ["src/style/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "pages"]
 }
