@@ -1,9 +1,41 @@
 import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from '@store/store';
 import { CardList } from './CardList';
 import { Character } from '@/src/types/types';
+import { vi, Mock } from 'vitest'; // Import Mock
+import { useRouter } from 'next/router';
+import { NextRouter } from 'next/router'; // Import NextRouter
+import { createContext } from 'react';
+
+const createMockRouter = (overrides: Partial<NextRouter>): NextRouter => ({
+  route: '',
+  pathname: '',
+  query: {},
+  asPath: '',
+  basePath: '',
+  push: vi.fn(),
+  replace: vi.fn(),
+  reload: vi.fn(),
+  back: vi.fn(),
+  forward: vi.fn(),
+  prefetch: vi.fn().mockResolvedValue(undefined),
+  beforePopState: vi.fn(),
+  isFallback: false,
+  events: {
+    on: vi.fn(),
+    off: vi.fn(),
+    emit: vi.fn(),
+  },
+  isReady: true,
+  isPreview: false,
+  isLocaleDomain: false,
+  ...overrides,
+});
+
+vi.mock('next/router', () => ({
+  useRouter: vi.fn(),
+}));
 
 const mockCharacters: Character[] = [
   {
@@ -24,13 +56,21 @@ const mockCharacters: Character[] = [
   },
 ];
 
+const mockRouter = createMockRouter({ query: { page: '1' } });
+const RouterContext = createContext<NextRouter>(mockRouter);
+
+beforeEach(() => {
+  vi.clearAllMocks();
+  (useRouter as Mock).mockReturnValue(mockRouter);
+});
+
 test('renders CardList component with characters', () => {
   render(
-    <Provider store={store}>
-      <MemoryRouter>
+    <RouterContext.Provider value={mockRouter}>
+      <Provider store={store}>
         <CardList dataCharacters={mockCharacters} />
-      </MemoryRouter>
-    </Provider>
+      </Provider>
+    </RouterContext.Provider>
   );
   expect(screen.getByText('Luke Skywalker')).toBeInTheDocument();
   expect(screen.getByText('Darth Vader')).toBeInTheDocument();

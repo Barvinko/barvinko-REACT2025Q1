@@ -10,7 +10,7 @@ interface CardProps {
 }
 
 export const Card = ({ name, url }: CardProps) => {
-  const router = useRouter();
+  const router: ReturnType<typeof useRouter> = useRouter();
   const { page } = router.query;
   const dispatch = useDispatch();
   const selectedItems = useSelector(

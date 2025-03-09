@@ -8,7 +8,7 @@ function HomePage() {
     router.replace('/page/1');
   }, [router]);
 
-  return null;
+  return <div id="home-page" data-testid="home-page"></div>;
 }
 
 export default HomePage;

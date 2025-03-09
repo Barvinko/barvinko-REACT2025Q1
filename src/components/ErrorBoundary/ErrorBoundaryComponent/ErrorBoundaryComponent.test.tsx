@@ -12,7 +12,7 @@ describe('ErrorBoundaryComponent', () => {
     );
 
     const article = screen.getByRole('article');
-    expect(article).toHaveClass('body', 'error-boundary', 'dark');
+    expect(article).toHaveClass('body', 'errorBoundary', 'dark');
 
     expect(screen.getByText('Oops!')).toBeInTheDocument();
     expect(screen.getByText('Something went wrong.')).toBeInTheDocument();

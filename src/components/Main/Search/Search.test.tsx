@@ -1,5 +1,4 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from '@store/store';
 import { Search } from './Search';
@@ -9,9 +8,7 @@ test('renders Search component and handles input', () => {
   const mockNameRequest = vi.fn();
   render(
     <Provider store={store}>
-      <MemoryRouter>
-        <Search nameRequest={mockNameRequest} />
-      </MemoryRouter>
+      <Search nameRequest={mockNameRequest} />
     </Provider>
   );
 
@@ -27,9 +24,7 @@ test('renders Search component and handles input', () => {
 test('displays error message for invalid input', () => {
   render(
     <Provider store={store}>
-      <MemoryRouter>
-        <Search nameRequest={vi.fn()} />
-      </MemoryRouter>
+      <Search nameRequest={vi.fn()} />
     </Provider>
   );
 

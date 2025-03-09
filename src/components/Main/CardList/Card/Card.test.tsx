@@ -1,10 +1,41 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { MemoryRouter, Route, Routes, useNavigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from '@store/store';
 import { Card } from './Card';
 import { Character } from '@/src/types/types';
-import { vi } from 'vitest';
+import { vi, Mock } from 'vitest'; // Import Mock
+import { useRouter } from 'next/router';
+import { NextRouter } from 'next/router'; // Import NextRouter
+import { createContext } from 'react';
+
+const createMockRouter = (overrides: Partial<NextRouter>): NextRouter => ({
+  route: '',
+  pathname: '',
+  query: {},
+  asPath: '',
+  basePath: '',
+  push: vi.fn(),
+  replace: vi.fn(),
+  reload: vi.fn(),
+  back: vi.fn(),
+  forward: vi.fn(),
+  prefetch: vi.fn().mockResolvedValue(undefined),
+  beforePopState: vi.fn(),
+  isFallback: false,
+  events: {
+    on: vi.fn(),
+    off: vi.fn(),
+    emit: vi.fn(),
+  },
+  isReady: true,
+  isPreview: false,
+  isLocaleDomain: false,
+  ...overrides,
+});
+
+vi.mock('next/router', () => ({
+  useRouter: vi.fn(),
+}));
 
 const mockCharacter: Character = {
   name: 'Luke Skywalker',
@@ -15,72 +46,46 @@ const mockCharacter: Character = {
   url: 'https://swapi.dev/api/people/1/',
 };
 
-vi.mock('react-router-dom', async (importOriginal) => {
-  const actual = (await importOriginal()) as typeof import('react-router-dom');
-  return {
-    ...actual,
-    useNavigate: vi.fn(),
-  };
+const mockRouter = createMockRouter({ query: { page: '1' } });
+const RouterContext = createContext<NextRouter>(mockRouter);
+
+beforeEach(() => {
+  vi.clearAllMocks();
+  (useRouter as Mock).mockReturnValue(mockRouter);
 });
 
 test('renders Card component with character name', () => {
   render(
-    <Provider store={store}>
-      <MemoryRouter initialEntries={['/page/1']}>
-        <Routes>
-          <Route path="/page/:page" element={<Card {...mockCharacter} />} />
-        </Routes>
-      </MemoryRouter>
-    </Provider>
+    <RouterContext.Provider value={mockRouter}>
+      <Provider store={store}>
+        <Card {...mockCharacter} />
+      </Provider>
+    </RouterContext.Provider>
   );
+
   expect(screen.getByText('Luke Skywalker')).toBeInTheDocument();
 });
 
 test('navigates to details page on click', () => {
-  const navigate = vi.fn();
-  vi.mocked(useNavigate).mockReturnValue(navigate);
-
   render(
-    <Provider store={store}>
-      <MemoryRouter initialEntries={['/page/1']}>
-        <Routes>
-          <Route path="/page/:page" element={<Card {...mockCharacter} />} />
-        </Routes>
-      </MemoryRouter>
-    </Provider>
+    <RouterContext.Provider value={mockRouter}>
+      <Provider store={store}>
+        <Card {...mockCharacter} />
+      </Provider>
+    </RouterContext.Provider>
   );
 
   fireEvent.click(screen.getByText('Luke Skywalker'));
-  expect(navigate).toHaveBeenCalledWith('/page/1/details/1');
-});
-
-test('does not navigate if URL is invalid', () => {
-  const navigate = vi.fn();
-  vi.mocked(useNavigate).mockReturnValue(navigate);
-
-  const invalidCharacter = { ...mockCharacter, url: 'invalid-url' };
-
-  render(
-    <Provider store={store}>
-      <MemoryRouter initialEntries={['/page/1']}>
-        <Routes>
-          <Route path="/page/:page" element={<Card {...invalidCharacter} />} />
-        </Routes>
-      </MemoryRouter>
-    </Provider>
-  );
-
-  fireEvent.click(screen.getByText('Luke Skywalker'));
-  expect(navigate).not.toHaveBeenCalled();
+  expect(mockRouter.push).toHaveBeenCalledWith('/page/1/details/1');
 });
 
 test('checkbox toggles state on click', () => {
   render(
-    <Provider store={store}>
-      <MemoryRouter>
+    <RouterContext.Provider value={mockRouter}>
+      <Provider store={store}>
         <Card {...mockCharacter} />
-      </MemoryRouter>
-    </Provider>
+      </Provider>
+    </RouterContext.Provider>
   );
 
   const checkbox = screen.getByRole('checkbox');

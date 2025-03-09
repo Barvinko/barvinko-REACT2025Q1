@@ -1,11 +1,15 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { MemoryRouter, Route, Routes, useNavigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from '@store/store';
 import { Details } from './Details';
 import { vi } from 'vitest';
 import { setupServer } from 'msw/node';
 import { http, HttpResponse } from 'msw';
+import { useRouter } from 'next/router';
+
+vi.mock('next/router', () => ({
+  useRouter: vi.fn(),
+}));
 
 const server = setupServer(
   http.get('https://swapi.dev/api/people/:id', async ({ params }) => {
@@ -26,22 +30,34 @@ beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
-vi.mock('react-router-dom', async (importOriginal) => {
-  const actual = (await importOriginal()) as typeof import('react-router-dom');
-  return {
-    ...actual,
-    useNavigate: vi.fn(),
-  };
-});
-
 test('renders Details component and fetches character data', async () => {
+  vi.mocked(useRouter).mockReturnValue({
+    query: { page: '1', id: '1' },
+    push: vi.fn(),
+    route: '',
+    pathname: '',
+    asPath: '',
+    basePath: '',
+    replace: vi.fn(),
+    reload: vi.fn(),
+    back: vi.fn(),
+    forward: vi.fn(),
+    prefetch: vi.fn().mockResolvedValue(undefined),
+    beforePopState: vi.fn(),
+    isFallback: false,
+    events: {
+      on: vi.fn(),
+      off: vi.fn(),
+      emit: vi.fn(),
+    },
+    isReady: true,
+    isPreview: false,
+    isLocaleDomain: false,
+  });
+
   render(
     <Provider store={store}>
-      <MemoryRouter initialEntries={['/page/1/details/1']}>
-        <Routes>
-          <Route path="/page/:page/details/:id" element={<Details />} />
-        </Routes>
-      </MemoryRouter>
+      <Details />
     </Provider>
   );
 
@@ -59,13 +75,33 @@ test('displays error message if character data is not available', async () => {
     )
   );
 
+  vi.mocked(useRouter).mockReturnValue({
+    query: { page: '1', id: '2' },
+    push: vi.fn(),
+    route: '',
+    pathname: '',
+    asPath: '',
+    basePath: '',
+    replace: vi.fn(),
+    reload: vi.fn(),
+    back: vi.fn(),
+    forward: vi.fn(),
+    prefetch: vi.fn().mockResolvedValue(undefined),
+    beforePopState: vi.fn(),
+    isFallback: false,
+    events: {
+      on: vi.fn(),
+      off: vi.fn(),
+      emit: vi.fn(),
+    },
+    isReady: true,
+    isPreview: false,
+    isLocaleDomain: false,
+  });
+
   render(
     <Provider store={store}>
-      <MemoryRouter initialEntries={['/page/1/details/2']}>
-        <Routes>
-          <Route path="/page/:page/details/:id" element={<Details />} />
-        </Routes>
-      </MemoryRouter>
+      <Details />
     </Provider>
   );
 
@@ -75,20 +111,40 @@ test('displays error message if character data is not available', async () => {
 });
 
 test('closes modal and navigates to page on handleClose', () => {
-  const navigate = vi.fn();
-  vi.mocked(useNavigate).mockReturnValue(navigate);
+  const push = vi.fn();
+
+  vi.mocked(useRouter).mockReturnValue({
+    query: { page: '1', id: '1' },
+    push,
+    route: '',
+    pathname: '',
+    asPath: '',
+    basePath: '',
+    replace: vi.fn(),
+    reload: vi.fn(),
+    back: vi.fn(),
+    forward: vi.fn(),
+    prefetch: vi.fn().mockResolvedValue(undefined),
+    beforePopState: vi.fn(),
+    isFallback: false,
+    events: {
+      on: vi.fn(),
+      off: vi.fn(),
+      emit: vi.fn(),
+    },
+    isReady: true,
+    isPreview: false,
+    isLocaleDomain: false,
+  });
 
   render(
     <Provider store={store}>
-      <MemoryRouter initialEntries={['/page/1/details/1']}>
-        <Routes>
-          <Route path="/page/:page/details/:id" element={<Details />} />
-        </Routes>
-      </MemoryRouter>
+      <Details />
     </Provider>
   );
 
   fireEvent.click(screen.getByText('Close'));
-  expect(navigate).toHaveBeenCalledWith('/page/1');
+
+  expect(push).toHaveBeenCalledWith('/page/1');
   expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
 });
