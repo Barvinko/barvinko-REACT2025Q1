@@ -4,7 +4,7 @@ import { ThemeContext } from '@store/ThemeContext';
 export const ErrorBoundaryComponent = () => {
   const { theme } = useContext(ThemeContext);
   return (
-    <article className={`body error-boundary ${theme}`}>
+    <article className={`body errorBoundary ${theme}`}>
       <h1>Oops!</h1>
       <h3>Something went wrong.</h3>
       <h3>Please try again.</h3>

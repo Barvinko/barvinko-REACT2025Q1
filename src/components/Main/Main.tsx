@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import ReactPaginate from 'react-paginate';
 import { Search } from './Search/Search';
 import { CardList } from './CardList/CardList';
-import { ButtonError } from './ButtonError/ButtonError';
 import { Spinner } from '@components/UI/Spinner/Spinner';
 import { Store } from './Store/Store';
 import { useDispatch, useSelector } from 'react-redux';
@@ -53,7 +52,6 @@ export const Main = () => {
         className={`${styles.searchList} ${selectedCards.length > 0 ? styles.searchList_selected : ''}`}
       >
         <Search nameRequest={handleSearch} />
-        <ButtonError />
         {isFetching ? (
           <Spinner />
         ) : error || !data?.results.length ? (
