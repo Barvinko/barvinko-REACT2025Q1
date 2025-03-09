@@ -1,0 +1,51 @@
+.store {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  min-width: 630px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.store__count {
+  margin: 0;
+}
+
+.store__button {
+  border: none;
+  padding: 10px 20px;
+  margin-left: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+:global(.light) {
+  .store {
+    background-color: #f5f5f5;
+    color: #333;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .button.store__button:hover {
+    color: theme(cl-button);
+  }
+}
+
+:global(.dark) {
+  .store {
+    background-color: #1d1d1d;
+    color: white;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .button.store__button {
+    background-color: #304fcc;
+
+    &:hover {
+      color: theme(text-color, $dark);
+    }
+  }
+}
