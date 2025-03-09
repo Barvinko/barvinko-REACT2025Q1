@@ -1,4 +1,5 @@
 import { AppProps } from 'next/app';
+import { useRouter } from 'next/router';
 import { Provider } from 'react-redux';
 import { store } from '@store/store';
 import { ErrorBoundary } from '@components/ErrorBoundary/ErrorBoundary';
@@ -8,13 +9,20 @@ import '@style/index.scss';
 import '@style/class.scss';
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+  const is404Page = router.pathname === '/404';
+
   return (
     <Provider store={store}>
       <ErrorBoundary>
         <ThemeProvider>
-          <Layout>
+          {is404Page ? (
             <Component {...pageProps} />
-          </Layout>
+          ) : (
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          )}
         </ThemeProvider>
       </ErrorBoundary>
     </Provider>
