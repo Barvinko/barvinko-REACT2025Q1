@@ -1,19 +1,19 @@
 import { useState, useContext, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
 import Modal from 'react-modal';
 import { Spinner } from '@components/UI/Spinner/Spinner';
 import { ThemeContext } from '@store/ThemeContext';
 import { useGetDetailsQuery } from '@store/api';
-import './Details.scss';
+import styles from './Details.module.scss';
 
 export const Details = () => {
-  const { page, id } = useParams<{ page: string; id: string }>();
-  const navigate = useNavigate();
+  const router = useRouter();
+  const { page, id } = router.query;
   const [modalFlag, setModalFlag] = useState(false);
   const { theme } = useContext(ThemeContext);
 
   const { data, error, isFetching } = useGetDetailsQuery({
-    id: id ? id : '',
+    id: id ? (id as string) : '',
   });
 
   useEffect(() => {
@@ -23,17 +23,17 @@ export const Details = () => {
   }, [id]);
 
   const handleClose = () => {
-    navigate(`/page/${page}`);
+    router.push(`/page/${page}`);
     setModalFlag(false);
   };
 
   return (
     <div
-      className={`content__right ${modalFlag ? 'content__right_active' : ''}`}
+      className={`${styles.content__right} ${modalFlag ? styles.content__right_active : ''}`}
     >
       <Modal
-        overlayClassName={`details ${theme}`}
-        className="details__content"
+        overlayClassName={`${styles.details} ${theme}`}
+        className={styles.details__content}
         isOpen={modalFlag}
         onRequestClose={handleClose}
         ariaHideApp={false}

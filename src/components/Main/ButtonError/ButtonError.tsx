@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './ButtonError.scss';
+import styles from './ButtonError.module.scss';
 
 export const ButtonError = () => {
   const [throwError, setThrowError] = useState<boolean>(false);
@@ -11,7 +11,7 @@ export const ButtonError = () => {
   }, [throwError]);
 
   return (
-    <section className="button-error">
+    <section className={styles.buttonError}>
       <button className="button" onClick={() => setThrowError(true)}>
         Throw Error
       </button>

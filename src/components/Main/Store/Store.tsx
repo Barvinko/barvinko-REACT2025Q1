@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@store/store';
 import { unselectCard } from '@store/selectedCardsSlice';
-import './Store.scss';
+import styles from './Store.module.scss';
 
 export const Store = () => {
   const dispatch = useDispatch();
@@ -28,17 +28,20 @@ export const Store = () => {
   if (selectedCards.length === 0) return <></>;
 
   return (
-    <div className="store">
-      <p className="store__count">
+    <div className={styles.store}>
+      <p className={styles.store__count}>
         {selectedCards.length} Characters are selected
       </p>
-      <button className="button store__button" onClick={handleUnselectAll}>
+      <button
+        className={`button ${styles.store__button}`}
+        onClick={handleUnselectAll}
+      >
         Unselect all
       </button>
       <a
         href={handleDownload()}
         download={`${selectedCards.length}_characters_of_StarWars.csv`}
-        className="button store__button"
+        className={`button ${styles.store__button}`}
       >
         Download
       </a>

@@ -1,10 +1,10 @@
-.light {
+:global(.light) {
   .spinner {
     border-color: theme(br-spinner);
     border-top-color: #304fcc;
   }
 }
-.dark {
+:global(.dark) {
   .spinner {
     border-color: theme(br-spinner, $dark);
     border-top-color: #304fcc;

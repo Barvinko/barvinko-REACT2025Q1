@@ -6,7 +6,10 @@ interface LocalStorageState {
 
 const keyName = 'Barvinko_StarWars__name';
 const initialState: LocalStorageState = {
-  searchName: localStorage.getItem(keyName) || '',
+  searchName:
+    typeof localStorage !== 'undefined'
+      ? localStorage.getItem(keyName) || ''
+      : '',
 };
 
 const localStorageSlice = createSlice({

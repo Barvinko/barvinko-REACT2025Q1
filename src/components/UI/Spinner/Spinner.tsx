@@ -1,5 +1,5 @@
-import './Spinner.scss';
+import styles from './Spinner.module.scss';
 
 export const Spinner = () => {
-  return <div className="spinner" data-testid="spinner"></div>;
+  return <div className={styles.spinner} data-testid="spinner"></div>;
 };

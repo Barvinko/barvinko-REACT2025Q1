@@ -1,8 +1,8 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@store/store';
 import { selectCard, unselectCard } from '@store/selectedCardsSlice';
-import './Card.scss';
+import styles from './Card.module.scss';
 
 interface CardProps {
   name: string;
@@ -10,8 +10,8 @@ interface CardProps {
 }
 
 export const Card = ({ name, url }: CardProps) => {
-  const { page } = useParams<{ page: string }>();
-  const navigate = useNavigate();
+  const router = useRouter();
+  const { page } = router.query;
   const dispatch = useDispatch();
   const selectedItems = useSelector(
     (state: RootState) => state.selectedCards.selectedCards
@@ -23,7 +23,7 @@ export const Card = ({ name, url }: CardProps) => {
 
   const handleClick = () => {
     if (id && !isNaN(Number(id))) {
-      navigate(`/page/${page}/details/${id}`);
+      router.push(`/page/${page}/details/${id}`);
     }
   };
 
@@ -36,14 +36,14 @@ export const Card = ({ name, url }: CardProps) => {
   };
 
   return (
-    <div className="card">
+    <div className={styles.card}>
       <input
-        className="card__checkbox"
+        className={styles.card__checkbox}
         type="checkbox"
         checked={isSelected}
         onChange={handleCheckboxChange}
       />
-      <h3 className="card__name" onClick={handleClick}>
+      <h3 className={styles.card__name} onClick={handleClick}>
         {name}
       </h3>
     </div>

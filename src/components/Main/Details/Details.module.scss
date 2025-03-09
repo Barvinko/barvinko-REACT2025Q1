@@ -11,8 +11,8 @@
   min-width: 620px;
   inset: 0px;
 
-  &.light,
-  &.dark {
+  &:global(.light),
+  &:global(.dark) {
     background-color: rgba(0, 0, 0, 0.411);
   }
 }
@@ -26,7 +26,7 @@
   max-width: 250px;
 }
 
-.light {
+:global(.light) {
   .details__content {
     background-color: theme(bg-color);
     color: theme(text-color);
@@ -34,7 +34,7 @@
   }
 }
 
-.dark {
+:global(.dark) {
   .details__content {
     background-color: #1d1d1d;
     color: theme(text-color, $dark);

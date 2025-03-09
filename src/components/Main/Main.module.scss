@@ -4,21 +4,21 @@
   flex-direction: column;
 }
 
-.search-list {
+.searchList {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
 }
 
-.search-list_selected {
+.searchList_selected {
   padding-bottom: 60px;
 }
 
-.search-list__test-error {
+.searchList__testError {
   margin-top: 10px;
 }
 
-.search-list__error-message {
+.searchList__errorMessage {
   color: rgb(138, 0, 0);
   padding: 10px;
   font-size: 3rem;
@@ -74,6 +74,6 @@
   width: 100%;
 }
 
-.content-right.modal-open .content__left {
+.content__right.modal-open .content__left {
   width: 60%;
 }

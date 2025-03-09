@@ -1,12 +1,12 @@
-import { Link } from 'react-router-dom';
-import './NotFound.scss';
+import Link from 'next/link';
+import styles from './NotFound.module.scss';
 
 export const NotFound = () => {
   return (
-    <div className="not-found">
-      <h1 className="not-found__title">404</h1>
-      <p className="not-found__text">Page Not Found</p>
-      <Link className="not-found__link" to="/">
+    <div className={styles.notFound}>
+      <h1 className={styles.notFound__title}>404</h1>
+      <p className={styles.notFound__text}>Page Not Found</p>
+      <Link className={styles.notFound__link} href="/">
         Go to Home
       </Link>
     </div>

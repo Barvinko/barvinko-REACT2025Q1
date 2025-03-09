@@ -1,5 +1,5 @@
 import { useState, useCallback, ChangeEvent } from 'react';
-import './Search.scss';
+import styles from './Search.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@store/store';
 import { setSearchName } from '@store/localStorageSlice';
@@ -36,9 +36,9 @@ export const Search = ({ nameRequest }: SearchProps) => {
   };
 
   return (
-    <section className="search">
+    <section className={styles.search}>
       <input
-        className="search__input"
+        className={styles.search__input}
         type="search"
         placeholder="Name..."
         value={inputName}
@@ -47,7 +47,9 @@ export const Search = ({ nameRequest }: SearchProps) => {
       <button className="button" onClick={handleSearchClick}>
         Search
       </button>
-      {errorMessage && <p className="search__error-message">{errorMessage}</p>}
+      {errorMessage && (
+        <p className={styles.search__errorMessage}>{errorMessage}</p>
+      )}
     </section>
   );
 };

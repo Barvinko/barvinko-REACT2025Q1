@@ -1,27 +1,14 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
-import { Header } from '@components/Header/Header';
-import { Main } from '@components/Main/Main';
-import { Details } from '@components/Main/Details/Details';
-import { ErrorBoundary } from '@components/ErrorBoundary/ErrorBoundary';
-import { NotFound } from '@components/NotFound/NotFound';
-import { ThemeProvider } from '@components/ThemeProvider/ThemeProvider';
-import '@style/index.scss';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
-function App() {
-  return (
-    <ErrorBoundary>
-      <ThemeProvider>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Navigate to="/page/1" replace />} />
-          <Route path="page/:page" element={<Main />}>
-            <Route path="details/:id" element={<Details />} />
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </ThemeProvider>
-    </ErrorBoundary>
-  );
+function HomePage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace('/page/1');
+  }, [router]);
+
+  return null;
 }
 
-export default App;
+export default HomePage;
