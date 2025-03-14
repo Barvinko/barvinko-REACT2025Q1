@@ -8,7 +8,7 @@ import eslintPluginPrettier from 'eslint-plugin-prettier/recommended';
 import reactCompiler from 'eslint-plugin-react-compiler';
 
 export default tseslint.config(
-  { ignores: ['dist'] },
+  { ignores: ['dist', 'coverage'] },
   {
     extends: [
       js.configs.recommended,
@@ -39,6 +39,18 @@ export default tseslint.config(
     settings: {
       react: {
         version: 'detect',
+      },
+      'import/resolver': {
+        alias: {
+          map: [
+            ['@components', './src/components'],
+            ['@/src/types/', './src/types'],
+            ['@utilits', './src/utilits'],
+            ['@store', './src/store'],
+            ['@style', './src/style'],
+          ],
+          extensions: ['.ts', '.tsx', '.js', '.jsx', 'scss', '.json'],
+        },
       },
     },
   }
