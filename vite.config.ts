@@ -6,15 +6,14 @@ export default defineConfig({
   plugins: [react(), tsconfigPaths()],
   resolve: {
     alias: {
-      '@style': '/src/style',
+      '@styles': '/src/styles',
     },
   },
   css: {
     preprocessorOptions: {
       scss: {
         additionalData: `
-          @import "@style/value.scss";
-          @import "@style/class.scss";
+          @import "@styles/class.scss";
         `,
       },
     },
