@@ -4,8 +4,13 @@ import { FormInput } from '@components/UI/FormInput/FormInput';
 import { AutocompleteInput } from '@components/UI/AutocompleteInput/AutocompleteInput';
 import { InputType } from '@/src/types/enums';
 import { validationSchema } from '@/src/types/validations';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { addCard } from '@store/cardsSlice';
 
 export const UncontrolledForm = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const formRef = useRef<HTMLFormElement>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [country, setCountry] = useState('');
@@ -15,11 +20,38 @@ export const UncontrolledForm = () => {
     if (!formRef.current) return;
     const formData = new FormData(formRef.current);
     formData.set('country', country);
-    const data = Object.fromEntries(formData.entries());
+
+    const data: Record<string, FormDataEntryValue> = Object.fromEntries(
+      formData.entries()
+    );
+
+    const picture =
+      data.picture instanceof FileList && data.picture.length > 0
+        ? data.picture[0]
+        : undefined;
 
     try {
-      await validationSchema.validate(data, { abortEarly: false });
+      await validationSchema.validate(
+        { ...data, picture },
+        { abortEarly: false }
+      );
       setErrors({});
+
+      dispatch(
+        addCard({
+          name: data.name as string,
+          age: Number(data.age),
+          email: data.email as string,
+          password: data.password as string,
+          confirmPassword: data.confirmPassword as string,
+          gender: data.gender as string,
+          terms: data.terms === 'true',
+          picture,
+          country: data.country as string,
+        })
+      );
+
+      navigate('/');
       console.log('Form submitted:', data);
     } catch (validationErrors) {
       if (validationErrors instanceof ValidationError) {

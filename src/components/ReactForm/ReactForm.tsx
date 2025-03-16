@@ -5,8 +5,13 @@ import { FormInput } from '@components/UI/FormInput/FormInput';
 import { InputType } from '@/src/types/enums';
 import { FormValues } from '@/src/types/types';
 import { AutocompleteInput } from '@components/UI/AutocompleteInput/AutocompleteInput';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { addCard } from '@store/cardsSlice';
 
 export const ReactForm = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -17,7 +22,20 @@ export const ReactForm = () => {
   });
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log('Form submitted:', data);
+    dispatch(
+      addCard({
+        name: data.name as string,
+        age: Number(data.age),
+        email: data.email as string,
+        password: data.password as string,
+        confirmPassword: data.confirmPassword as string,
+        gender: data.gender as string,
+        terms: data.terms ?? false,
+        picture: data.picture instanceof File ? data.picture : null,
+        country: data.country as string,
+      })
+    );
+    navigate('/');
   };
 
   return (
