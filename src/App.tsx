@@ -4,6 +4,7 @@ import { Main } from '@components/Main/Main';
 import { UncontrolledForm } from '@components/UncontrolledForm/UncontrolledForm';
 import { ReactForm } from '@components/ReactForm/ReactForm';
 import '@styles/index.scss';
+import '@styles/class.scss';
 import '@styles/form.scss';
 
 const router = createBrowserRouter([

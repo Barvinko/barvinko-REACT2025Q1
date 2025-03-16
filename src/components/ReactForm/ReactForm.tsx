@@ -52,6 +52,7 @@ export const ReactForm = () => {
           terms: data.terms ?? false,
           picture: pictureBase64,
           country: data.country as string,
+          isNew: true,
         })
       );
       navigate('/');

@@ -8,8 +8,9 @@ interface Card {
   confirmPassword: string;
   gender: string;
   terms: boolean;
-  picture: string | null; // Updated to store base64 string
+  picture: string | null;
   country: string;
+  isNew: boolean;
 }
 
 const cardsSlice = createSlice({
@@ -17,10 +18,14 @@ const cardsSlice = createSlice({
   initialState: [] as Card[],
   reducers: {
     addCard: (state, action: PayloadAction<Card>) => {
-      state.push(action.payload);
+      state.unshift(action.payload);
+    },
+    markCardAsOld: (state, action: PayloadAction<number>) => {
+      const card = state[action.payload];
+      if (card) card.isNew = false;
     },
   },
 });
 
-export const { addCard } = cardsSlice.actions;
+export const { addCard, markCardAsOld } = cardsSlice.actions;
 export default cardsSlice.reducer;

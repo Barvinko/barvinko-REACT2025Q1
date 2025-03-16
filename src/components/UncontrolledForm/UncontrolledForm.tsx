@@ -60,6 +60,7 @@ export const UncontrolledForm = () => {
           terms,
           picture: pictureBase64,
           country: data.country as string,
+          isNew: true,
         })
       );
 

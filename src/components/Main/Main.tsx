@@ -1,16 +1,32 @@
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@store/store';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './Main.scss';
+import { markCardAsOld } from '@store/cardsSlice';
 
 export const Main = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const cards = useSelector((state: RootState) => state.cards);
+  const [newCardIndexes, setNewCardIndexes] = useState<number[]>([]);
 
   useEffect(() => {
-    console.log(cards);
-  }, [cards]);
+    const newIndexes = cards
+      .map((card, index) => (card.isNew ? index : -1))
+      .filter((index) => index !== -1);
+
+    setNewCardIndexes(newIndexes);
+
+    const timers = newIndexes.map((index) =>
+      setTimeout(() => {
+        dispatch(markCardAsOld(index));
+        setNewCardIndexes((prev) => prev.filter((i) => i !== index));
+      }, 3000)
+    );
+
+    return () => timers.forEach(clearTimeout);
+  }, [cards, dispatch]);
 
   return (
     <article>
@@ -18,9 +34,12 @@ export const Main = () => {
         Uncontrolled Form
       </button>
       <button onClick={() => navigate('react-form')}>React Hook Form</button>
-      <section>
+      <section className="cards">
         {cards.map((card, index) => (
-          <div key={index} className="card">
+          <div
+            key={index}
+            className={`card ${newCardIndexes.includes(index) ? 'card_new' : ''}`}
+          >
             <p>Name: {card.name}</p>
             <p>Age: {card.age}</p>
             <p>Email: {card.email}</p>
