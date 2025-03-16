@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { ValidationError } from 'yup';
 import { FormInput } from '@components/UI/FormInput/FormInput';
 import { AutocompleteInput } from '@components/UI/AutocompleteInput/AutocompleteInput';
+import { ButtonBack } from '@components/UI/ButtonBack/ButtonBack';
 import { InputType } from '@/src/types/enums';
 import { validationSchema } from '@/src/types/validations';
 import { useDispatch } from 'react-redux';
@@ -82,7 +83,8 @@ export const UncontrolledForm = () => {
   };
 
   return (
-    <main className="main">
+    <>
+      <ButtonBack />
       <form ref={formRef} onSubmit={handleSubmit} className="form">
         <FormInput nameData="name" type={InputType.TEXT} error={errors.name} />
 
@@ -148,6 +150,6 @@ export const UncontrolledForm = () => {
           Submit
         </button>
       </form>
-    </main>
+    </>
   );
 };
