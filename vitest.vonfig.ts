@@ -10,7 +10,7 @@ export default defineConfig({
       '@utilits': resolve(__dirname, 'src/utilits'),
       '@/src/types': resolve(__dirname, 'src/types'),
       '@store': resolve(__dirname, 'src/store'),
-      '@styles': resolve(__dirname, 'src/style'),
+      '@styles': resolve(__dirname, 'src/styles'),
     },
   },
   test: {

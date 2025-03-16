@@ -47,7 +47,7 @@ export default tseslint.config(
             ['@/src/types/', './src/types'],
             ['@utilits', './src/utilits'],
             ['@store', './src/store'],
-            ['@style', './src/style'],
+            ['@styles', './src/styles'],
           ],
           extensions: ['.ts', '.tsx', '.js', '.jsx', 'scss', '.json'],
         },
