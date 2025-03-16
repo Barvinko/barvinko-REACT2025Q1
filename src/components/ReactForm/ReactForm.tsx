@@ -9,9 +9,10 @@ export const ReactForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<FormValues>({
     resolver: yupResolver(validationSchema),
+    mode: 'onChange',
   });
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
@@ -29,6 +30,7 @@ export const ReactForm = () => {
       <FormInput
         nameData="age"
         type={InputType.NUMBER}
+        register={register}
         error={errors.age?.message}
       />
 
@@ -95,7 +97,11 @@ export const ReactForm = () => {
         error={errors.country?.message}
       />
 
-      <button type="submit" className="form__button">
+      <button
+        type="submit"
+        className={`form__button ${!isValid ? 'form__button--disabled' : ''}`}
+        disabled={!isValid}
+      >
         Submit
       </button>
     </form>
