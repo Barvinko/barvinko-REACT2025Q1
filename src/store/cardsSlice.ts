@@ -8,7 +8,7 @@ interface Card {
   confirmPassword: string;
   gender: string;
   terms: boolean;
-  picture: File | null;
+  picture: string | null; // Updated to store base64 string
   country: string;
 }
 

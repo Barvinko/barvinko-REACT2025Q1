@@ -39,5 +39,5 @@ export type FormValues = {
   gender: string;
   country: string;
   terms?: boolean;
-  picture?: FileList;
+  picture?: FileList | null | undefined;
 };

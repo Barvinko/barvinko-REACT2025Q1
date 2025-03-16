@@ -30,41 +30,62 @@ export const UncontrolledForm = () => {
         ? data.picture[0]
         : undefined;
 
-    try {
-      await validationSchema.validate(
-        { ...data, picture },
-        { abortEarly: false }
-      );
-      setErrors({});
+    console.log('Picture File:', picture); // Debugging log
 
-      dispatch(
-        addCard({
-          name: data.name as string,
-          age: Number(data.age),
-          email: data.email as string,
-          password: data.password as string,
-          confirmPassword: data.confirmPassword as string,
-          gender: data.gender as string,
-          terms: data.terms === 'true',
-          picture,
-          country: data.country as string,
-        })
-      );
+    if (picture) {
+      const pictureBase64 = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          console.log('Base64 Result:', reader.result); // Debugging log
+          resolve(reader.result as string);
+        };
+        reader.onerror = (error) => {
+          console.error('FileReader Error:', error); // Debugging log
+          reject(error);
+        };
+        reader.readAsDataURL(picture);
+      });
 
-      navigate('/');
-      console.log('Form submitted:', data);
-    } catch (validationErrors) {
-      if (validationErrors instanceof ValidationError) {
-        const formattedErrors: Record<string, string> = {};
+      console.log('Picture Base64:', pictureBase64); // Debugging log
 
-        validationErrors.inner.forEach((err: ValidationError) => {
-          if (err.path) {
-            formattedErrors[err.path] = err.message;
-          }
-        });
+      try {
+        await validationSchema.validate(
+          { ...data, picture: pictureBase64 },
+          { abortEarly: false }
+        );
+        setErrors({});
 
-        setErrors(formattedErrors);
+        dispatch(
+          addCard({
+            name: data.name as string,
+            age: Number(data.age),
+            email: data.email as string,
+            password: data.password as string,
+            confirmPassword: data.confirmPassword as string,
+            gender: data.gender as string,
+            terms: data.terms === 'true',
+            picture: pictureBase64,
+            country: data.country as string,
+          })
+        );
+
+        navigate('/');
+        console.log('Form submitted:', data);
+      } catch (validationErrors) {
+        if (validationErrors instanceof ValidationError) {
+          const formattedErrors: Record<string, string> = {};
+
+          validationErrors.inner.forEach((err: ValidationError) => {
+            if (err.path) {
+              formattedErrors[err.path] = err.message;
+            }
+          });
+
+          setErrors(formattedErrors);
+        }
       }
+    } else {
+      console.error('No picture file found');
     }
   };
 

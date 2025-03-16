@@ -41,7 +41,8 @@ export const validationSchema = Yup.object().shape({
         (value instanceof FileList &&
           value.length > 0 &&
           ['image/jpeg', 'image/png'].includes(value[0].type))
-    ),
+    )
+    .nullable(),
   country: Yup.string()
     .oneOf(countries, 'Selected country is not valid')
     .required('Country is required'),

@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '@store/store';
 import { useEffect } from 'react';
+import './Main.scss';
 
 export const Main = () => {
   const navigate = useNavigate();
@@ -23,11 +24,18 @@ export const Main = () => {
             <p>Name: {card.name}</p>
             <p>Age: {card.age}</p>
             <p>Email: {card.email}</p>
-            <p>password: {card.password}</p>
+            <p>Password: {card.password}</p>
             <p>Confirm Password: {card.confirmPassword}</p>
             <p>Gender: {card.gender}</p>
             <p>Terms: {`${card.terms}`}</p>
             <p>Country: {card.country}</p>
+            {card.picture && (
+              <img
+                className="card__picture"
+                src={card.picture}
+                alt={`${card.name}'s picture`}
+              />
+            )}
           </div>
         ))}
       </section>

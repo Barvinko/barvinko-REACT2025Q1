@@ -21,21 +21,43 @@ export const ReactForm = () => {
     mode: 'onChange',
   });
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    dispatch(
-      addCard({
-        name: data.name as string,
-        age: Number(data.age),
-        email: data.email as string,
-        password: data.password as string,
-        confirmPassword: data.confirmPassword as string,
-        gender: data.gender as string,
-        terms: data.terms ?? false,
-        picture: data.picture instanceof File ? data.picture : null,
-        country: data.country as string,
-      })
-    );
-    navigate('/');
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    console.log('Picture File:', data.picture); // Debugging log
+
+    if (data.picture instanceof FileList && data.picture.length > 0) {
+      const picture = data.picture[0];
+      const pictureBase64 = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          console.log('Base64 Result:', reader.result); // Debugging log
+          resolve(reader.result as string);
+        };
+        reader.onerror = (error) => {
+          console.error('FileReader Error:', error); // Debugging log
+          reject(error);
+        };
+        reader.readAsDataURL(picture);
+      });
+
+      console.log('Picture Base64:', pictureBase64); // Debugging log
+
+      dispatch(
+        addCard({
+          name: data.name as string,
+          age: Number(data.age),
+          email: data.email as string,
+          password: data.password as string,
+          confirmPassword: data.confirmPassword as string,
+          gender: data.gender as string,
+          terms: data.terms ?? false,
+          picture: pictureBase64,
+          country: data.country as string,
+        })
+      );
+      navigate('/');
+    } else {
+      console.error('No picture file found');
+    }
   };
 
   return (
