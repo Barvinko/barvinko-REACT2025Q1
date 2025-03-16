@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { countries } from './countries';
 
 export const validationSchema = Yup.object().shape({
   name: Yup.string()
@@ -41,5 +42,7 @@ export const validationSchema = Yup.object().shape({
           value.length > 0 &&
           ['image/jpeg', 'image/png'].includes(value[0].type))
     ),
-  country: Yup.string().required('Country is required'),
+  country: Yup.string()
+    .oneOf(countries, 'Selected country is not valid')
+    .required('Country is required'),
 });

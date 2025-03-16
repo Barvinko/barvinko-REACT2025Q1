@@ -1,18 +1,20 @@
 import React, { useRef, useState } from 'react';
 import { ValidationError } from 'yup';
 import { FormInput } from '@components/UI/FormInput/FormInput';
+import { AutocompleteInput } from '@components/UI/AutocompleteInput/AutocompleteInput';
 import { InputType } from '@/src/types/enums';
 import { validationSchema } from '@/src/types/validations';
 
 export const UncontrolledForm = () => {
   const formRef = useRef<HTMLFormElement>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
-
+  const [country, setCountry] = useState('');
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!formRef.current) return;
     const formData = new FormData(formRef.current);
+    formData.set('country', country);
     const data = Object.fromEntries(formData.entries());
 
     try {
@@ -91,10 +93,10 @@ export const UncontrolledForm = () => {
           error={errors.picture}
         />
 
-        <FormInput
+        <AutocompleteInput
           nameData="country"
-          type={InputType.TEXT}
           error={errors.country}
+          onChange={(value) => setCountry(value)}
         />
 
         <button type="submit" className="form__button">

@@ -1,3 +1,14 @@
+import { InputType } from '@/src/types/enums';
+import { UseFormRegister } from 'react-hook-form';
+
+export type FormInputProps = {
+  nameData: string;
+  error: string | undefined;
+  nameTitle?: string;
+  type?: InputType;
+  register?: UseFormRegister<NameInputs>;
+};
+
 export type NameInputs = {
   terms?: boolean | undefined;
   name: string;

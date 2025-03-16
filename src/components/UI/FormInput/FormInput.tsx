@@ -1,14 +1,6 @@
 import { InputType } from '@/src/types/enums';
-import { UseFormRegister } from 'react-hook-form';
-import { NameInputs, NameInput } from '@/src/types/types';
-
-type FormInputProps = {
-  nameData: string;
-  error: string | undefined;
-  nameTitle?: string;
-  type?: InputType;
-  register?: UseFormRegister<NameInputs>;
-};
+import { FormInputProps } from '@/src/types/types';
+import { NameInput } from '@/src/types/types';
 
 const capitalizeFirstLetter = (str: string) =>
   str ? `${str[0].toUpperCase()}${str.slice(1)}` : str;

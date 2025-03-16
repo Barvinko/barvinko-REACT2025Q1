@@ -4,6 +4,7 @@ import { validationSchema } from '@/src/types/validations';
 import { FormInput } from '@components/UI/FormInput/FormInput';
 import { InputType } from '@/src/types/enums';
 import { FormValues } from '@/src/types/types';
+import { AutocompleteInput } from '@components/UI/AutocompleteInput/AutocompleteInput';
 
 export const ReactForm = () => {
   const {
@@ -90,9 +91,8 @@ export const ReactForm = () => {
         error={errors.picture?.message}
       />
 
-      <FormInput
+      <AutocompleteInput
         nameData="country"
-        type={InputType.TEXT}
         register={register}
         error={errors.country?.message}
       />
