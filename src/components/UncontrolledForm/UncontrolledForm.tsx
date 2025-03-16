@@ -66,7 +66,6 @@ export const UncontrolledForm = () => {
       );
 
       navigate('/');
-      console.log('Form submitted:', data);
     } catch (validationErrors) {
       if (validationErrors instanceof ValidationError) {
         const formattedErrors: Record<string, string> = {};

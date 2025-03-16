@@ -23,8 +23,6 @@ export const ReactForm = () => {
   });
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    console.log('Picture File:', data.picture); // Debugging log
-
     if (data.picture instanceof FileList && data.picture.length > 0) {
       const picture = data.picture[0];
       const pictureBase64 = await new Promise<string>((resolve, reject) => {
