@@ -1,0 +1,33 @@
+.body {
+  width: 100%;
+  height: 100vh;
+}
+
+.light {
+  color: theme(text-color);
+  background-color: theme(bg-color);
+}
+
+.dark {
+  color: theme(text-color, $dark);
+  background-color: theme(bg-color, $dark);
+
+  &::-webkit-scrollbar-track {
+    background: theme(bg-color, $dark);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: theme(scrollbar-color, $dark);
+  }
+}
+
+.container {
+  min-height: 100vh;
+  width: 95vw;
+  min-width: inherit;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+}
