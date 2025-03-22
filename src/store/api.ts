@@ -5,10 +5,7 @@ export const countriesApi = createApi({
   reducerPath: 'countriesApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://restcountries.com/v3.1/' }),
   endpoints: (builder) => ({
-    getCountries: builder.query<
-    Country[],
-      {}
-    >({
+    getCountries: builder.query<Country[], object>({
       query: () => `all`,
     }),
   }),

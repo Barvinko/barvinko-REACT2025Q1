@@ -1,22 +1,13 @@
 import { useGetCountriesQuery } from '@store/api';
 import { useEffect } from 'react';
-import { CountryCard } from './CountryCard/CountryCard';
+import { CountryList } from './CountryList/CountryList';
 import './Main.scss';
 
 export const Main = () => {
-
   const { data } = useGetCountriesQuery({});
   useEffect(() => {
     console.log(data);
   }, [data]);
 
-  return (
-  <article>
-    {data &&
-      data.map((country) => 
-        <CountryCard key={country.cca3} country={country} />
-      )}
-  </article>
-);
-
+  return <article>{data && <CountryList countrys={data} />}</article>;
 };

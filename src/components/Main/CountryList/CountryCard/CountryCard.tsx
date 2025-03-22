@@ -8,7 +8,11 @@ interface CountryCardProps {
 export const CountryCard = ({ country }: CountryCardProps) => {
   return (
     <div className="country-card">
-      <img src={country.flags?.png} alt={country.name?.common} />
+      <img
+        className="country-card__flag"
+        src={country.flags?.png}
+        alt={country.name?.common}
+      />
       <h2>{country.name?.official}</h2>
       <p>{country.population?.toLocaleString()}</p>
       <p>{country.region}</p>
