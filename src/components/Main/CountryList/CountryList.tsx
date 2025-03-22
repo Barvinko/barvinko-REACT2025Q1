@@ -1,15 +1,14 @@
-import { Country } from '@/src/types/types';
 import { CountryCard } from './CountryCard/CountryCard';
 import './CountryList.scss';
+import { useSelector } from 'react-redux';
+import { RootState } from '@store/store';
 
-interface CountryListProps {
-  countrys: Country[];
-}
+export const CountryList = () => {
+  const countries = useSelector((state: RootState) => state.countries);
 
-export const CountryList = ({ countrys }: CountryListProps) => {
   return (
     <div className="country-list">
-      {countrys.map((country) => (
+      {countries.map((country) => (
         <CountryCard key={country.cca3} country={country} />
       ))}
     </div>
