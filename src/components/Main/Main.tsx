@@ -1,9 +1,10 @@
-import { useGetCountriesQuery } from '@store/api';
 import { useEffect } from 'react';
-import { CountryList } from './CountryList/CountryList';
-import './Main.scss';
 import { useDispatch } from 'react-redux';
+import { CountryList } from './CountryList/CountryList';
+import { Search } from './Search/Search';
+import { useGetCountriesQuery } from '@store/api';
 import { setCountries } from '@store/countriesSlice';
+import './Main.scss';
 
 export const Main = () => {
   const { data } = useGetCountriesQuery({});
@@ -15,5 +16,10 @@ export const Main = () => {
     }
   }, [data, dispatch]);
 
-  return <article>{data && <CountryList />}</article>;
+  return (
+    <article>
+      <Search />
+      {data && <CountryList />}
+    </article>
+  );
 };

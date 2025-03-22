@@ -3,19 +3,35 @@ import { Country } from '@/src/types/types';
 
 const countriesSlice = createSlice({
   name: 'countries',
-  initialState: [] as Country[],
+  initialState: {
+    countries: [] as Country[],
+    countriesTime: [] as Country[],
+  },
   reducers: {
-    setCountries: (_, action: PayloadAction<Country[]>) => {
-      return [...action.payload].sort((a, b) =>
+    setCountries: (state, action: PayloadAction<Country[]>) => {
+      state.countries = [...action.payload].sort((a, b) =>
         a.name.official.localeCompare(b.name.common)
+      );
+      state.countriesTime = state.countries;
+    },
+    filterCountries: (state, action: PayloadAction<string>) => {
+      state.countriesTime = state.countries.filter((country) =>
+        country.name.official
+          .toLowerCase()
+          .includes(action.payload.toLowerCase())
       );
     },
   },
 });
 
-export const { setCountries } = countriesSlice.actions;
+export const { setCountries, filterCountries } = countriesSlice.actions;
 
-export const selectCountries = (state: { countries: Country[] }) =>
-  state.countries;
+export const selectCountries = (state: {
+  countries: { countries: Country[] };
+}) => state.countries.countries;
+
+export const selectCountriesTime = (state: {
+  countries: { countriesTime: Country[] };
+}) => state.countries.countriesTime;
 
 export default countriesSlice.reducer;
