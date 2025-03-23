@@ -1,0 +1,14 @@
+.country-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.country-list__empty {
+  color: rgb(138, 0, 0);
+  padding: 10px;
+  font-size: 2rem;
+  border-radius: 5px;
+  text-align: center;
+  margin-top: 20px;
+}
