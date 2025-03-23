@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CountryList } from './CountryList/CountryList';
 import { Search } from './Search/Search';
 import { SelectRegion } from './SelectRegion/SelectRegion';
+import { SortButtons } from './SortButtons/SortButtons';
 import { useGetCountriesQuery } from '@store/api';
 import { setCountries, selectCountriesTime } from '@store/countriesSlice';
 import './Main.scss';
@@ -22,7 +23,10 @@ export const Main = () => {
     <article>
       <section className="navigation">
         <Search />
-        <SelectRegion />
+        <div className="navigation__filters">
+          <SelectRegion />
+          <SortButtons />
+        </div>
       </section>
       {filteredCountries && <CountryList />}
     </article>
