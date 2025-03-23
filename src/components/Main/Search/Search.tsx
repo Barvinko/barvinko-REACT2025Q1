@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { setName } from '@store/countriesSlice';
 import './Search.scss';
@@ -7,11 +7,14 @@ export const Search = () => {
   const [inputCountry, setInputCountry] = useState<string>('');
   const dispatch = useDispatch();
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const name = event.target.value;
-    setInputCountry(name);
-    dispatch(setName(name));
-  };
+  const handleInputChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const name = event.target.value;
+      setInputCountry(name);
+      dispatch(setName(name));
+    },
+    [dispatch]
+  );
 
   return (
     <section className="search">

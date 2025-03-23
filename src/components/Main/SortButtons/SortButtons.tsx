@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { useCallback } from 'react';
 import { setCountriesSort, setPopulationSort } from '@store/countriesSlice';
-import { RootState } from '@store/store'; // Adjust import based on your store setup
+import { RootState } from '@store/store';
 import './SortButtons.scss';
 
 export const SortButtons = () => {
@@ -9,13 +10,13 @@ export const SortButtons = () => {
     (state: RootState) => state.countries
   );
 
-  const toggleSortByName = () => {
+  const toggleSortByName = useCallback(() => {
     dispatch(setCountriesSort(!countriesSort));
-  };
+  }, [dispatch, countriesSort]);
 
-  const toggleSortByPopulation = () => {
+  const toggleSortByPopulation = useCallback(() => {
     dispatch(setPopulationSort(!populationSort));
-  };
+  }, [dispatch, populationSort]);
 
   return (
     <div className="sort-buttons">

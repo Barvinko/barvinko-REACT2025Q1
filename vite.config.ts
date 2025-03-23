@@ -3,7 +3,12 @@ import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
-  plugins: [react(), tsconfigPaths()],
+  plugins: [
+    react({
+      jsxImportSource: '@emotion/react',
+    }),
+    tsconfigPaths(),
+  ],
   resolve: {
     alias: {
       '@styles': '/src/styles',
@@ -12,10 +17,11 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `
-          @import "@styles/variables.scss";
-        `,
+        additionalData: `@import "@styles/variables.scss";`,
       },
     },
+  },
+  define: {
+    'process.env.NODE_ENV': JSON.stringify('development'),
   },
 });

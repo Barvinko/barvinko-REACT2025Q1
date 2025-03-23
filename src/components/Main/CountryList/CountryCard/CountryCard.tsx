@@ -1,3 +1,4 @@
+import React, { useCallback } from 'react';
 import { Country } from '@/src/types/countryTypesAPI';
 import './CountryCard.scss';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,7 +9,7 @@ interface CountryCardProps {
   country: Country;
 }
 
-export const CountryCard = ({ country }: CountryCardProps) => {
+export const CountryCard = React.memo(({ country }: CountryCardProps) => {
   const dispatch = useDispatch();
   const visitedCountries = useSelector(
     (state: RootState) => state.countries.visitedCountries
@@ -16,9 +17,9 @@ export const CountryCard = ({ country }: CountryCardProps) => {
 
   const isVisited = visitedCountries.includes(country.cca3);
 
-  const handleCardClick = () => {
+  const handleCardClick = useCallback(() => {
     dispatch(toggleVisitedCountry(country.cca3));
-  };
+  }, [dispatch, country.cca3]);
 
   return (
     <div
@@ -41,4 +42,6 @@ export const CountryCard = ({ country }: CountryCardProps) => {
       </p>
     </div>
   );
-};
+});
+
+CountryCard.displayName = 'CountryCard';

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Region } from '@/src/types/enums';
 import { RegionSelect } from '@/src/types/types';
@@ -11,11 +11,14 @@ export const SelectRegion = () => {
 
   const regions = ['All', ...Object.values(Region)];
 
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const region = event.target.value as RegionSelect;
-    setSelectedRegion(region);
-    dispatch(setRegion(region));
-  };
+  const handleChange = useCallback(
+    (event: React.ChangeEvent<HTMLSelectElement>) => {
+      const region = event.target.value as RegionSelect;
+      setSelectedRegion(region);
+      dispatch(setRegion(region));
+    },
+    [dispatch]
+  );
 
   return (
     <div className="select-region">
