@@ -6,6 +6,7 @@ const countriesSlice = createSlice({
   initialState: {
     countries: [] as Country[],
     countriesTime: [] as Country[],
+    visitedCountries: [] as string[],
     countryName: '' as string,
     selectedRegion: 'All' as string,
     countriesSort: true as boolean | null,
@@ -13,8 +14,26 @@ const countriesSlice = createSlice({
   },
   reducers: {
     setCountries: (state, action: PayloadAction<Country[]>) => {
+      const savedVisited = JSON.parse(
+        localStorage.getItem('visitedCountries') || '[]'
+      );
+      state.visitedCountries = savedVisited;
       state.countries = [...action.payload];
       state.countriesTime = applyFiltersAndSorting(state);
+    },
+    toggleVisitedCountry: (state, action: PayloadAction<string>) => {
+      const country = action.payload;
+      if (state.visitedCountries.includes(country)) {
+        state.visitedCountries = state.visitedCountries.filter(
+          (item) => item !== country
+        );
+      } else {
+        state.visitedCountries.push(country);
+      }
+      localStorage.setItem(
+        'visitedCountries',
+        JSON.stringify(state.visitedCountries)
+      );
     },
     setRegion: (state, action: PayloadAction<string>) => {
       state.selectedRegion = action.payload;
@@ -72,6 +91,7 @@ function applyFiltersAndSorting(state: {
 
 export const {
   setCountries,
+  toggleVisitedCountry,
   setRegion,
   setName,
   setCountriesSort,
