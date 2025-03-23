@@ -1,4 +1,4 @@
-import { Country } from '@/src/types/types';
+import { Country } from '@/src/types/countryTypesAPI';
 import './CountryCard.scss';
 
 interface CountryCardProps {

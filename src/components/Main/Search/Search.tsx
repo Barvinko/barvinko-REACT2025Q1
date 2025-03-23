@@ -1,6 +1,6 @@
 import { useState, ChangeEvent } from 'react';
 import { useDispatch } from 'react-redux';
-import { filterCountries } from '@store/countriesSlice';
+import { setName } from '@store/countriesSlice';
 import './Search.scss';
 
 export const Search = () => {
@@ -10,7 +10,7 @@ export const Search = () => {
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const name = event.target.value;
     setInputCountry(name);
-    dispatch(filterCountries(name));
+    dispatch(setName(name));
   };
 
   return (
